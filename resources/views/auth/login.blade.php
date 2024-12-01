@@ -1,7 +1,15 @@
 @extends('layouts.app')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('assets/css/page/login.css') }}" />
+@endpush
+
+@section('title')
+Login
+@endsection
+
 @section('content')
-<div class="container">
+{{-- <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -66,6 +74,43 @@
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+</div> --}}
+
+<div class="login">
+    <div class="login1">
+        <div class="logo-vertical">
+            <img class="logo-icon" alt="logo" src="{{ asset('assets/image/logo.png') }}" />
+            <b class="text-logo">Q-POS</b>
+        </div>
+        <div class="form-login">
+            <div class="title">Selamat Datang Kembali!</div>
+            <form action="{{ route('login') }}" method="post">
+                @csrf
+                <div class="form">
+                    <div class="email">
+                        <div class="form-title">E-mail</div>
+                        <div class="field">
+                            <input class="placeholder @error('email') is-invalid @enderror" type="email" name="email" id="email" placeholder="Masukkan email anda" required value="{{ old('email') }}"/>
+                        </div>
+                    </div>
+                    <div class="email">
+                        <div class="form-title">Password</div>
+                        <div class="field">
+                            <input class="placeholder @error('password') is-invalid @enderror" type="password" name="password" id="password" placeholder="Masukkan password" required/>
+                            <img class="icon-eye-off" alt="" src="{{ asset('assets/image/icon eye-off.svg') }}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="button-login" id="buttonLoginContainer">
+                    <div class="label"><input type="submit" value="Masuk"></div>
+                </div>
+            </form>
+            <div class="help-text">
+                <div class="text">Belum punya akun?</div>
+                <a href="{{ route('register') }}"><div class="label2" id="lABELText1">Daftar</div></a>
             </div>
         </div>
     </div>

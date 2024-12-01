@@ -1,0 +1,134 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  line-height: normal;
+  font-family: poppins;
+}
+header {
+  display: flex;
+  position: sticky;
+  height: fit-content;
+  top: 0;
+  z-index: 100;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.logo-header {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
+  }
+  .logo-icon {
+    width: 40px;
+    position: relative;
+    height: 40px;
+    overflow: hidden;
+    flex-shrink: 0;
+    object-fit: contain;
+  }
+  .text-header {
+    display: flex;
+    flex-direction: column;
+  }
+  .text .logo-title {
+    align-self: stretch;
+    position: relative;
+    line-height: 110%;
+  }
+  .date {
+    position: relative;
+    font-size: var(--body-body-s-size);
+    line-height: 140%;
+    font-family: var(--body-body-s);
+    color: var(--grey-g500);
+    text-align: left;
+  }
+main {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  height: calc(100vh - 88px);
+  overflow: hidden;
+}
+.popup-overlay {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  inset: 0;
+}
+input {
+    border: none;
+  }
+  input:focus {
+    outline: none;
+    color: var(--grey-g500);
+  }
+:root {
+  /* fonts */
+  --body-body-xs: Poppins;
+  --font-lato: Lato;
+  /* font sizes */
+  --font-size-xl: 20px;
+  --body-body-s-size: 14px;
+  --body-body-xs-size: 12px;
+  --body-body-xxs-size: 10px;
+  --heading-heading-4-size: 24px;
+  --body-body-l-size: 18px;
+  --font-size-base: 16px;
+  --heading-heading-2-size: 42px;
+  /* Colors */
+  --green-g50: #eaefea;
+  --grey-g50: #ebebeb;
+  --default: #fff;
+  --green-g300: #31602c;
+  --green-g400: #22431f;
+  --grey-g75: #adadad;
+  --miscellaneous-tab-unselected: #999;
+  --text-default: #000;
+  --grey-g200: #585858;
+  --gray-3: #828282;
+  --m3-sys-light-outline: #79747e;
+  --grey-g500: #212121;
+  --color-gray-100: rgba(255, 255, 255, 0.8);
+  --color-gray-200: rgba(0, 0, 0, 0.4);
+  --grey-g300: #363636;
+  --green-g500: #1e3b1b;
+  --colors-gray-gray-6: #6c727f;
+  --green-g100: #88a385;
+  --gray-4: #bdbdbd;
+  /* Spacing */
+  --space-200: 8px;
+  --space-300: 12px;
+  /* Gaps */
+  --gap-xs: 12px;
+  --gap-base: 16px;
+  --gap-9xs: 4px;
+  --gap-5xs: 8px;
+  --gap-7xs: 6px;
+  --gap-5xl: 24px;
+  --gap-3xs: 10px;
+  /* Paddings */
+  --padding-base: 16px;
+  --padding-xl: 20px;
+  --padding-xs: 12px;
+  --padding-sm: 14px;
+  --padding-7xl: 26px;
+  --padding-lg: 18px;
+  --padding-5xs: 8px;
+  --padding-7xs: 6px;
+  --padding-9xs: 4px;
+  --padding-23xl: 42px;
+  --padding-11xs: 2px;
+  --padding-13xl: 32px;
+  --padding-3xs: 10px;
+  /* Border radiuses */
+  --br-xl: 20px;
+  --br-3xs: 10px;
+  --br-mini: 15px;
+  --br-81xl: 100px;
+}
