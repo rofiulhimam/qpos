@@ -95,6 +95,12 @@ Login
                         <div class="field">
                             <input class="placeholder @error('email') is-invalid @enderror" type="email" name="email" id="email" placeholder="Masukkan email anda" required value="{{ old('email') }}"/>
                         </div>
+                        {{-- *siapin elemen buat munculin error, kalo udah code di bawah tinggal uncomment aja --}}
+                        {{-- @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror --}}
                     </div>
                     <div class="email">
                         <div class="form-title">Password</div>
@@ -102,6 +108,12 @@ Login
                             <input class="placeholder @error('password') is-invalid @enderror" type="password" name="password" id="password" placeholder="Masukkan password" required/>
                             <img class="icon-eye-off" alt="" src="{{ asset('assets/image/icon eye-off.svg') }}" />
                         </div>
+                        {{-- *siapin elemen buat munculin error, kalo udah code di bawah tinggal uncomment aja --}}
+                        {{-- @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror --}}
                     </div>
                 </div>
                 <div class="button-login" id="buttonLoginContainer">

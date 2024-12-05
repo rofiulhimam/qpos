@@ -128,7 +128,7 @@ POS
 </div>
 @endsection
 
-@section('right-content')
+@section('more-content')
 <aside class="right-page">
     <div class="aside-body">
         <div class="menu-order-container">

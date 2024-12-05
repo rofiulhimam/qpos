@@ -210,7 +210,7 @@
             </div> --}}
             
         </div>
-        @yield('right-content')
+        @yield('more-content')
         {{-- <aside class="right-page">
             <div class="aside-body">
                 <div class="menu-order-container">

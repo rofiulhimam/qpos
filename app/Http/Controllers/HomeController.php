@@ -25,4 +25,34 @@ class HomeController extends Controller
     {
         return view('pages.pos.index');
     }
+
+    public function transaksi()
+    {
+        return view('pages.transaksi.index');
+    }
+
+    public function keuangan()
+    {
+        return view('pages.keuangan.index');
+    }
+
+    public function penjualan()
+    {
+        return view('pages.penjualan.index');
+    }
+
+    public function inventori()
+    {
+        return view('pages.inventori.index');
+    }
+
+    public function add_inventori()
+    {
+        return view('pages.inventori.add');
+    }
+
+    public function edit_inventori()
+    {
+        return view('pages.inventori.edit');
+    }
 }
