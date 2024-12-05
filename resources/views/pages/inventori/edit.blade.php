@@ -12,9 +12,9 @@
     <div class="main-content">
         <div class="top">
             <div class="title">Edit Produk</div>
-            <div class="button">
+            <a href="{{ route('inventori') }}"><div class="button">
                 <button class="text-wrapper">Batal</button>
-            </div>
+            </div></a>
         </div>
         <div class="container">
             <div class="content-container">

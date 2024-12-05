@@ -1,32 +1,32 @@
 <sidebar class="sidebar">
     <div class="sidebar-top">
-        <div class="menu-sidebar">
+        <a href="{{ route('home') }}"><div class="menu-sidebar">
             <img class="menu-icon" alt="" src="{{ asset('assets/image/cart.svg') }}" />
 
             <div class="menu-text">Point Of Sale</div>
             <img class="icon-tabler-icons-chevron-" alt="" src="{{ asset('assets/image/chevron-right.svg') }}" />
-        </div>
-        <div class="menu-sidebar">
+        </div></a>
+        <a href="{{ route('transaksi') }}"><div class="menu-sidebar">
             <img class="menu-icon" alt="" src="{{ asset('assets/image/document-f.svg') }}" />
 
             <div class="menu-text" id="button-menu-selected">Transaksi</div>
             <img class="icon-tabler-icons-chevron-" alt="" src="{{ asset('assets/image/chevron-down.svg') }}" />
-        </div>
-        <div class="menu-sidebar">
+        </div></a>
+        <a href="{{ route('keuangan') }}"><div class="menu-sidebar">
             <img class="menu-icon" alt="" src="{{ asset('assets/image/currency-dollar.svg') }}" />
 
             <div class="menu-text">Keuangan</div>
-        </div>
-        <div class="menu-sidebar">
+        </div></a>
+        <a href="{{ route('penjualan') }}"><div class="menu-sidebar">
             <img class="menu-icon" alt="" src="{{ asset('assets/image/bag.svg') }}" />
 
             <div class="menu-text">Penjualan</div>
-        </div>
-        <div class="menu-sidebar">
+        </div></a>
+        <a href="{{ route('inventori') }}"><div class="menu-sidebar">
             <img class="menu-icon" alt="" src="{{ asset('assets/image/Box.svg') }}" />
 
             <div class="menu-text">Inventori</div>
-        </div>
+        </div></a>
     </div>
     <div class="sidebar-bottom">
         <div class="divider"></div>

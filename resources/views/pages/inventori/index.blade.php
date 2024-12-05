@@ -19,13 +19,13 @@
                     <div class="text-button">Stok</div>
                 </div>
             </div>
-            <div class="add-button">
+            <a href="{{ route('add-inventori') }}"><div class="add-button">
                 <div class="text-button">Tambah</div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path d="M7.99998 3.33334V12.6667M3.33331 8.00001H12.6666" stroke="#F5F5F5" stroke-width="1.6"
                         stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-            </div>
+            </div></a>
         </div>
         <div class="table-container">
             <table class="table">
@@ -50,7 +50,7 @@
                         <td class="category">Tersedia</td>
                         <td class="price">Rp 79.000</td>
                         <td class="action">
-                            <img class="edit-icon" alt="" src="{{ asset('assets/image/edit-pencil.svg') }}" id="editIcon" />
+                            <a href="{{ route('edit-inventori') }}"><img class="edit-icon" alt="" src="{{ asset('assets/image/edit-pencil.svg') }}" id="editIcon" /></a>
                             <img class="delete-icon" alt="" src="{{ asset('assets/image/delete.svg') }}" id="deleteIcon" />
                         </td>
                     </tr>
