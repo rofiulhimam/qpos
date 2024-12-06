@@ -8,23 +8,22 @@
     justify-content: flex-start;
     padding: var(--padding-base) var(--padding-xl);
     gap: 12px;
-  }
+}
 
-  
-  .menu-text {
+.menu-text {
     flex: 1;
     position: relative;
     line-height: 110%;
     font-weight: 600;
-  }
-  .menu-icon {
+}
+.menu-icon {
     width: 24px;
     position: relative;
     height: 24px;
     overflow: hidden;
     flex-shrink: 0;
-  }
-  .menu-sidebar {
+}
+.menu-sidebar {
     width: 100%;
     position: relative;
     height: fit-content;
@@ -32,7 +31,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    padding: 14px 16px;
+    padding: 14px 12px 14px 16px;
     box-sizing: border-box;
     gap: 8px;
     cursor: pointer;
@@ -40,26 +39,30 @@
     font-size: 16px;
     color: var(--green-g500);
     font-family: var(--font-poppins);
-  }
-  .text {
+}
+.text {
     position: relative;
     line-height: 140%;
-  }
-  .sidebar-top {
+}
+.sidebar-top {
     flex: 1;
     overflow-y: auto;
-  }
-  .sidebar-bottom {
-      margin-top: auto;
-  }
-  .divider {
+    scrollbar-width: none;
+}
+a {
+    text-decoration: none;
+}
+.sidebar-bottom {
+    margin-top: auto;
+}
+.divider {
     align-self: stretch;
     position: relative;
     border-top: 1px solid var(--grey-g75);
     box-sizing: border-box;
     height: 1px;
-  }
-  .sidebar {
+}
+.sidebar {
     width: 200px;
     height: 100%;
     display: flex;
@@ -71,4 +74,52 @@
     font-size: var(--body-body-s-size);
     color: var(--green-g500);
     font-family: var(--body-body-s);
-  }
+}
+.menu-sidebar:hover,
+.dropdown-item:hover {
+  background-color: var(--green-g50);
+  border-left: 8px solid var(--green-g400);
+  padding: 14px 12px 14px 8px;
+  box-sizing: border-box;
+}
+
+.dropdown {
+    /* display: ;  */
+    margin-top: -1px; 
+}
+
+.menu-sidebar:hover + .dropdown {
+    display: block; /* Show dropdown on hover */
+}
+
+.dropdown-content {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+    font-size: var(--body-body-s-size);
+    color: var(--color-black);
+    font-family: var(--body-body-s);
+}
+
+.dropdown-item {
+    align-self: stretch;
+    color: black;
+    height: 35px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 0px 10px 45px;
+    box-sizing: border-box;
+}
+
+.dropdown-item:hover {
+    background-color: var(--green-g50);
+    border-left: 8px solid var(--green-g400);
+    padding: 10px 0px 10px 37px;
+    box-sizing: border-box;
+}

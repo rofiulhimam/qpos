@@ -131,6 +131,7 @@ Register
                         <div class="field">
                             <input class="placeholder" id="password-confirm" name="password_confirmation" type="password" placeholder="Masukkan lagi password anda" required autocomplete="new-password"/>
                             <img class="icon-eye-off" alt="" src="{{ asset('assets/image/icon eye-off.svg') }}" />
+                            
                         </div>
                     </div>
                 </div>
