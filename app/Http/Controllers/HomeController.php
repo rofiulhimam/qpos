@@ -55,4 +55,9 @@ class HomeController extends Controller
     {
         return view('pages.inventori.edit');
     }
+
+    public function staff()
+    {
+        return view('pages.staff.index');
+    }
 }

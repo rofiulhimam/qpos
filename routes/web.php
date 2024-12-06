@@ -26,3 +26,4 @@ Route::get('/penjualan', [App\Http\Controllers\HomeController::class, 'penjualan
 Route::get('/inventori', [App\Http\Controllers\HomeController::class, 'inventori'])->name('inventori');
 Route::get('/add-inventori', [App\Http\Controllers\HomeController::class, 'add_inventori'])->name('add-inventori');
 Route::get('/edit-inventori', [App\Http\Controllers\HomeController::class, 'edit_inventori'])->name('edit-inventori');
+Route::get('/staff', [App\Http\Controllers\HomeController::class, 'staff'])->name('staff');

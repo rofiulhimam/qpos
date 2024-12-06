@@ -25,10 +25,10 @@
         </a>
         <div class="dropdown" id="transaksi-dropdown" style="display: none;">
             <div class="dropdown-content">
-                <a href="{{ route('home') }}" class="dropdown-item">Hari ini</a>
-                <a href="{{ route('home') }}" class="dropdown-item">Kemarin</a>
-                <a href="{{ route('home') }}" class="dropdown-item">Bulan ini</a>
-                <a href="{{ route('home') }}" class="dropdown-item">Bulan lalu</a>
+                <a href="{{ route('transaksi') }}" class="dropdown-item">Hari ini</a>
+                <a href="{{ route('transaksi') }}" class="dropdown-item">Kemarin</a>
+                <a href="{{ route('transaksi') }}" class="dropdown-item">Bulan ini</a>
+                <a href="{{ route('transaksi') }}" class="dropdown-item">Bulan lalu</a>
             </div>
         </div>
         <a href="{{ route('keuangan') }}">
@@ -49,6 +49,12 @@
                 <div class="menu-text">Inventori</div>
             </div>
         </a>
+        <a href="{{ route('staff') }}">
+            <div class="menu-sidebar">
+                <img class="menu-icon" alt="" src="{{ asset('assets/image/user-group.png') }}" />
+                <div class="menu-text">Staff</div>
+            </div>
+        </a>
     </div>
     <div class="sidebar-bottom">
         <div class="divider"></div>
@@ -59,7 +65,7 @@
         <div class="menu-sidebar" id="logout">
             <img class="icon-ionicons-filled-car" alt="" src="{{ asset('assets/image/Log_Out.svg') }}" />
             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <div class="menu-text">Logout</div>
+                <div class="menu-text" style="color: #1E3B1B">Logout</div>
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none">
                 @csrf
@@ -76,12 +82,10 @@
             const targetDropdown = document.getElementById(targetId);
             const isVisible = targetDropdown.style.display === 'block';
 
-            // Menutup semua dropdown
             document.querySelectorAll('.dropdown').forEach(dropdown => {
                 dropdown.style.display = 'none';
             });
 
-            // Jika dropdown yang ditekan tidak terlihat, tampilkan
             if (!isVisible) {
                 targetDropdown.style.display = 'block';
             }
