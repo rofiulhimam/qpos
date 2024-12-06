@@ -12,10 +12,12 @@
     <div class="main-content">
         <div class="top">
             <div class="title">Tambah Produk</div>
-            <a href="{{ route('inventori') }}"><div class="button">
-                <button class="text-wrapper">Batal</button>
-            </div></a>
-        </div>
+            <a href="{{ route('inventori') }}">
+                <div class="button">
+                    <button>Batal</button>
+                </div>
+            </a>
+            </div>
         <div class="container">
             <div class="content-container">
                 <div class="left-content">
@@ -29,7 +31,7 @@
                 </div>
                 <div class="input-image">
                     <label for="product-image">
-                        <img class="plus" src="../Image/Plus-grey.svg" />
+                        <img class="plus" src="{{ asset('assets/image/Plus-grey.svg') }}" />
                         <input type="file" id="product-image" name="product-image" accept=".jpg,.jpeg,.png"
                             style="display: none;" onchange="previewImage(this)" />
                     </label>
@@ -107,7 +109,7 @@
         </div>
         <div class="button-bottom">
             <div class="button">
-                <button class="text-wrapper">Simpan</button>
+                <button>Simpan</button>
             </div>
         </div>
     </div>

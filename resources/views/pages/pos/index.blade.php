@@ -142,15 +142,15 @@ POS
                     </div>
                 </div>
                 <div class="qty-option">
-                    <div class="button-minus">
+                    <button class="button-minus">
                         <img class="minus-icon" alt="" src="{{ asset('assets/image/Minus.png') }}" />
-                    </div>
+                    </button>
                     <div class="input-qty">
                         <div class="div">1</div>
                     </div>
-                    <div class="button-plus">
+                    <button class="button-plus">
                         <img class="minus-icon" alt="" src="{{ asset('assets/image/Plus.png') }}" />
-                    </div>
+                    </button>
                 </div>
             </div>
             <div class="menu-order">
@@ -163,15 +163,15 @@ POS
                     </div>
                 </div>
                 <div class="qty-option">
-                    <div class="button-minus">
+                    <button class="button-minus">
                         <img class="minus-icon" alt="" src="{{ asset('assets/image/Minus.png') }}" />
-                    </div>
+                    </button>
                     <div class="input-qty">
                         <div class="div">1</div>
                     </div>
-                    <div class="button-plus">
+                    <button class="button-plus">
                         <img class="minus-icon" alt="" src="{{ asset('assets/image/Plus.png') }}" />
-                    </div>
+                    </button>
                 </div>
             </div>
             <div class="menu-order">
@@ -184,15 +184,15 @@ POS
                     </div>
                 </div>
                 <div class="qty-option">
-                    <div class="button-minus">
+                    <button class="button-minus">
                         <img class="minus-icon" alt="" src="{{ asset('assets/image/Minus.png') }}" />
-                    </div>
+                    </button>
                     <div class="input-qty">
                         <div class="div">1</div>
                     </div>
-                    <div class="button-plus">
+                    <button class="button-plus">
                         <img class="minus-icon" alt="" src="{{ asset('assets/image/Plus.png') }}" />
-                    </div>
+                    </button>
                 </div>
             </div>
             <div class="menu-order">
@@ -205,15 +205,15 @@ POS
                     </div>
                 </div>
                 <div class="qty-option">
-                    <div class="button-minus">
+                    <button class="button-minus">
                         <img class="minus-icon" alt="" src="{{ asset('assets/image/Minus.png') }}" />
-                    </div>
+                    </button>
                     <div class="input-qty">
                         <div class="div">1</div>
                     </div>
-                    <div class="button-plus">
+                    <button class="button-plus">
                         <img class="minus-icon" alt="" src="{{ asset('assets/image/Plus.png') }}" />
-                    </div>
+                    </button>
                 </div>
             </div>
             <div class="menu-order">
@@ -226,15 +226,15 @@ POS
                     </div>
                 </div>
                 <div class="qty-option">
-                    <div class="button-minus">
+                    <button class="button-minus">
                         <img class="minus-icon" alt="" src="{{ asset('assets/image/Minus.png') }}" />
-                    </div>
+                    </button>
                     <div class="input-qty">
                         <div class="div">1</div>
                     </div>
-                    <div class="button-plus">
+                    <button class="button-plus">
                         <img class="minus-icon" alt="" src="{{ asset('assets/image/Plus.png') }}" />
-                    </div>
+                    </button>
                 </div>
             </div>
             <div class="menu-order">
@@ -247,15 +247,15 @@ POS
                     </div>
                 </div>
                 <div class="qty-option">
-                    <div class="button-minus">
+                    <button class="button-minus">
                         <img class="minus-icon" alt="" src="{{ asset('assets/image/Minus.png') }}" />
-                    </div>
+                    </button>
                     <div class="input-qty">
                         <div class="div">1</div>
                     </div>
-                    <div class="button-plus">
+                    <button class="button-plus">
                         <img class="minus-icon" alt="" src="{{ asset('assets/image/Plus.png') }}" />
-                    </div>
+                    </button>
                 </div>
             </div>
         </div>
@@ -268,7 +268,7 @@ POS
                 <div class="price-total">Rp 235.000</div>
             </div>
             <div class="button-order">
-                <div class="button">Order</div>
+                <button type="submit" class="button">Order</button>
             </div>
         </div>
     </div>
