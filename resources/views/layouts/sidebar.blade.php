@@ -20,7 +20,7 @@
             <div class="menu-sidebar">
                 <img class="menu-icon" alt="" src="{{ asset('assets/image/document-f.svg') }}" />
                 <div class="menu-text" id="button-menu-selected">Transaksi</div>
-                <img class="icon-tabler-icons-chevron-" alt="" src="{{ asset('assets/image/chevron-down.svg') }}" />
+                <img class="icon-tabler-icons-chevron-" alt="" src="{{ asset('assets/image/chevron-right.svg') }}" />
             </div>
         </a>
         <div class="dropdown" id="transaksi-dropdown" style="display: none;">
@@ -81,6 +81,7 @@
             const targetId = item.getAttribute('data-target');
             const targetDropdown = document.getElementById(targetId);
             const isVisible = targetDropdown.style.display === 'block';
+            const chevron = item.querySelector('.icon-tabler-icons-chevron-');
 
             document.querySelectorAll('.dropdown').forEach(dropdown => {
                 dropdown.style.display = 'none';
@@ -88,8 +89,11 @@
 
             if (!isVisible) {
                 targetDropdown.style.display = 'block';
+                chevron.style.transform = 'rotate(90deg)';
+            } else {
+                targetDropdown.style.display = 'none';
+                chevron.style.transform = 'rotate(0deg)';
             }
         });
     });
 </script>
-
