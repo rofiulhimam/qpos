@@ -135,7 +135,7 @@ Register
                     </div>
                 </div>
                 <div class="button" id="buttonContainer">
-                    <div class="label"><input type="submit" value="Daftar"></div>
+                    <input class="label" type="submit" value="Daftar"></input>
                 </div>
             </form>
             <div class="help-text">

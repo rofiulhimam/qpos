@@ -37,8 +37,16 @@ body {
   /* Border radiuses */
   --br-7xs: 6px;
 }
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
 input {
     border: none;
+    width: 360px;
     background-color: transparent;
     font-family: poppins;
     font-size: 14px;
@@ -48,6 +56,7 @@ input {
     outline: none;
     color: rgb(27, 27, 27);
   }
+
 .logo-icon {
   width: 124px;
   position: relative;
@@ -176,6 +185,8 @@ input {
   letter-spacing: 0.5px;
   line-height: 100%;
   font-weight: 500;
+  color: var(--color-white);
+  cursor: pointer;
 }
 .button-login {
   width: 424px;
@@ -190,12 +201,15 @@ input {
   cursor: pointer;
   text-align: center;
   color: #fcfcfd;
+  cursor: pointer;
+}
+.button-login:hover {
+  background-color: #305a2b;
 }
 .label2 {
   position: relative;
   line-height: 140%;
   font-weight: 600;
-  color: var(--grey-darker);
   cursor: pointer;
 }
 .help-text {
@@ -207,7 +221,12 @@ input {
   gap: 4px;
   text-align: right;
   font-size: var(--body-body-s-size);
-  color: var(--grey-normal);
+  color: var(--grey-darker);
+}
+.help-text a {
+  text-decoration: none;
+  color: #31602c;
+  cursor: pointer;
 }
 .form-login {
   width: 100%;

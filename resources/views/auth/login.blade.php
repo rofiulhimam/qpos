@@ -105,7 +105,7 @@ Login
                     <div class="email">
                         <div class="form-title">Password</div>
                         <div class="field">
-                            <input class="placeholder @error('password') is-invalid @enderror" type="password" name="password" id="password" placeholder="Masukkan password" required/>
+                            <input class="placeholder @error('password') is-invalid @enderror" type="password" name="password" id="password" placeholder="Masukkan password anda" required/>
                             <img class="icon-eye-off" alt="" src="{{ asset('assets/image/icon eye-off.svg') }}" />
                         </div>
                         {{-- *siapin elemen buat munculin error, kalo udah code di bawah tinggal uncomment aja --}}
@@ -117,7 +117,7 @@ Login
                     </div>
                 </div>
                 <div class="button-login" id="buttonLoginContainer">
-                    <div class="label"><input type="submit" value="Masuk"></div>
+                    <input class="label" type="submit" value="Masuk"></input>
                 </div>
             </form>
             <div class="help-text">
