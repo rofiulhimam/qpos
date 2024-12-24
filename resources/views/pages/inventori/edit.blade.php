@@ -12,9 +12,11 @@
     <div class="main-content">
         <div class="top">
             <div class="title">Edit Produk</div>
-            <a href="{{ route('inventori') }}"><div class="button">
-                <button class="text-wrapper">Batal</button>
-            </div></a>
+            <a href="{{ route('inventori') }}">
+                <div class="button">
+                    <button class="text-wrapper">Batal</button>
+                </div>
+            </a>
         </div>
         <div class="container">
             <div class="content-container">
@@ -22,14 +24,14 @@
                     <div class="div">Gambar Produk</div>
                     <div class="flexcontainer">
                         <p class="p">
-                            <span class="span">Gunakan foto terbaik untuk produk ini.<br />(format .JPG
-                                .JPEG .PNG max 1 MB)</span>
+                            <span class="span">Gunakan foto terbaik untuk produk ini.<br />(format .JPG .JPEG .PNG max 1 MB)</span>
                         </p>
                     </div>
                 </div>
                 <div class="edit-image">
                     <div class="input-image">
-                        <img class="product-preview" src="{{ asset('assets/image/image-menu.png') }}" alt="Product Preview" />
+                        <img class="product-preview" src="{{ asset('assets/image/image-menu.png') }}"
+                            alt="Product Preview" />
                     </div>
                     <div class="button">
                         <button class="text-wrapper">Ganti foto</button>

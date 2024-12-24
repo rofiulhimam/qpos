@@ -16,6 +16,14 @@
     <link rel="stylesheet" href="{{ asset('assets/css/global.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/sidebar.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/header.css') }}">
+    <link href="{{ asset('assets/lib/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/lib/toastr/toastr.min.css') }}" rel="stylesheet">
+
+    <!-- Lib -->
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" /> --}}
+    
+
     {{-- <link rel="stylesheet" href="../CSS/page/pos.css" /> --}}
     @stack('styles')
 
@@ -356,6 +364,30 @@
             </div>
         </aside> --}}
     </main>
+
+    <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('assets/js/loadingoverlay.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/toastr/toastr.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/sweetalert2/sweetalert2.min.js') }}"></script>
+    {{-- new --}}
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
+    <script>
+        var imageloading_path = "{{ asset('assets/image/image.gif') }}";
+
+        function showLoading() {
+            $("body").LoadingOverlay("show", {
+                image: imageloading_path,
+            });
+        }
+        
+        function hideLoading() {
+            $("body").LoadingOverlay("hide", true);
+        }
+    </script>
+    
+    @yield('js')
 </body>
 
 </html>

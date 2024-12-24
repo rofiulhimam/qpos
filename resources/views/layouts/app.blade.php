@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     {{-- CSS --}}
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/page/login.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/page/register.css') }}" /> --}}
@@ -92,6 +94,9 @@
     </div> --}}
 
     @yield('content')
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @yield('js')
 </body>
 
 </html>

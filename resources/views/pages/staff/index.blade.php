@@ -14,7 +14,7 @@
             <div class="left-button" style="font-size: 20px; color: var(--color-black); font-family: var(--body-body-s); font-weight: 600;">
                 Manajemen Staff
             </div>
-            <a href="{{ route('add-inventori') }}"><div class="add-button">
+            <a href=""><div class="add-button">
                 <div class="text-button">Tambah</div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path d="M7.99998 3.33334V12.6667M3.33331 8.00001H12.6666" stroke="#F5F5F5" stroke-width="1.6"

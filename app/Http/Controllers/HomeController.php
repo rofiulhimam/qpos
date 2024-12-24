@@ -41,21 +41,6 @@ class HomeController extends Controller
         return view('pages.penjualan.index');
     }
 
-    public function inventori()
-    {
-        return view('pages.inventori.index');
-    }
-
-    public function add_inventori()
-    {
-        return view('pages.inventori.add');
-    }
-
-    public function edit_inventori()
-    {
-        return view('pages.inventori.edit');
-    }
-
     public function staff()
     {
         return view('pages.staff.index');

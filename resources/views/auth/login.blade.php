@@ -130,3 +130,16 @@ Login
     </div>
 </div>
 @endsection
+
+@section('js')
+<script>
+    @if(session('alert'))
+        Swal.fire({
+            title: "{{ session('alert.title') }}",
+            text: "{{ session('alert.text') }}",
+            icon: "{{ session('alert.icon') }}",
+            confirmButtonText: 'OK'
+        });
+    @endif 
+</script>
+@endsection

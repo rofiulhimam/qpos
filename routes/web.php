@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\InventoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('auth.login');
+});
 
 Auth::routes();
 
@@ -23,7 +25,18 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/transaksi', [App\Http\Controllers\HomeController::class, 'transaksi'])->name('transaksi');
 Route::get('/keuangan', [App\Http\Controllers\HomeController::class, 'keuangan'])->name('keuangan');
 Route::get('/penjualan', [App\Http\Controllers\HomeController::class, 'penjualan'])->name('penjualan');
-Route::get('/inventori', [App\Http\Controllers\HomeController::class, 'inventori'])->name('inventori');
-Route::get('/add-inventori', [App\Http\Controllers\HomeController::class, 'add_inventori'])->name('add-inventori');
-Route::get('/edit-inventori', [App\Http\Controllers\HomeController::class, 'edit_inventori'])->name('edit-inventori');
 Route::get('/staff', [App\Http\Controllers\HomeController::class, 'staff'])->name('staff');
+
+Route::group(['middleware' => ['auth']], function () {
+    
+});
+
+Route::group(['middleware' => ['auth', 'admin']], function () {
+    Route::get('/kategori', [App\Http\Controllers\CategoryController::class, 'index'])->name('kategori');
+    Route::get('/form-kategori', [App\Http\Controllers\CategoryController::class, 'form_kategori'])->name('form-kategori');
+    Route::match(['get', 'post', 'patch', 'delete'], '/kategori/crud', [CategoryController::class, 'categoryCrud'])->name('kategori_crud');
+
+    Route::get('/inventori', [App\Http\Controllers\InventoryController::class, 'index'])->name('inventori');
+    Route::get('/form-inventori', [App\Http\Controllers\InventoryController::class, 'form_inventori'])->name('form-inventori');
+    Route::match(['get', 'post', 'patch', 'delete'], '/inventori/crud', [InventoryController::class, 'inventoryCrud'])->name('inventori_crud');
+});

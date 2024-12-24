@@ -17,15 +17,15 @@
             </div>
         </div>
         <a href="#" class="menu-toggle" data-target="transaksi-dropdown">
-            <div class="menu-sidebar">
+            <div class="menu-sidebar {{ request()->is('transaksi') ? 'selected' : '' }}">
                 <img class="menu-icon" alt="" src="{{ asset('assets/image/document-f.svg') }}" />
                 <div class="menu-text" id="button-menu-selected">Transaksi</div>
                 <img class="icon-tabler-icons-chevron-" alt="" src="{{ asset('assets/image/chevron-right.svg') }}" />
             </div>
         </a>
-        <div class="dropdown" id="transaksi-dropdown" style="display: none;">
+        <div class="dropdown" id="transaksi-dropdown" style="display: {{ request()->is('transaksi') ? 'show' : 'none' }};">
             <div class="dropdown-content">
-                <a href="{{ route('transaksi') }}" class="dropdown-item">Hari ini</a>
+                <a href="{{ route('transaksi') }}" class="dropdown-item {{ request()->is('transaksi') ? 'selected' : '' }}">Hari ini</a>
                 <a href="{{ route('transaksi') }}" class="dropdown-item">Kemarin</a>
                 <a href="{{ route('transaksi') }}" class="dropdown-item">Bulan ini</a>
                 <a href="{{ route('transaksi') }}" class="dropdown-item">Bulan lalu</a>
@@ -43,12 +43,20 @@
                 <div class="menu-text">Penjualan</div>
             </div>
         </a>
-        <a href="{{ route('inventori') }}">
-            <div class="menu-sidebar">
-                <img class="menu-icon" alt="" src="{{ asset('assets/image/Box.svg') }}" />
-                <div class="menu-text">Inventori</div>
-            </div>
-        </a>
+        @if (Auth::user()->role === 'Admin')
+            <a href="{{ route('inventori') }}">
+                <div class="menu-sidebar">
+                    <img class="menu-icon" alt="" src="{{ asset('assets/image/Box.svg') }}" />
+                    <div class="menu-text">Inventori</div>
+                </div>
+            </a>
+            <a href="{{ route('kategori') }}">
+                <div class="menu-sidebar {{ request()->is('kategori') ? 'selected' : '' }}">
+                    <img class="menu-icon" alt="" src="{{ asset('assets/image/Box.svg') }}" />
+                    <div class="menu-text">Kategori</div>
+                </div>
+            </a>
+        @endif
         <a href="{{ route('staff') }}">
             <div class="menu-sidebar">
                 <img class="menu-icon" alt="" src="{{ asset('assets/image/user-group.png') }}" />
