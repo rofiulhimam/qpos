@@ -12,7 +12,7 @@
     <div class="main-content">
         <div class="top">
             <div class="title" id="title">Tambah Kategori</div>
-            <a href="{{ route('kategori') }}">
+            <a href="{{ route('staff') }}">
                 <div class="button">
                     <button type="button">Batal</button>
                 </div>
@@ -31,7 +31,6 @@
                     </div>
                     <div class="field">
                         <input type="text" class="placeholder" placeholder="Masukkan nama kategori" style="border: none; background: transparent; width: 100%; outline: none;" name="name" id="name" value="">
-                        <!-- Hidden field for ID (used during edit) -->
                     </div>
                 </div>
             </div>

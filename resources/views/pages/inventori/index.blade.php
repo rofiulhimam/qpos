@@ -12,11 +12,23 @@
     <div class="main-content">
         <div class="button-header">
             <div class="left-button">
-                <div class="category-button" id="categoryButtonContainer">
-                    <div class="text-button">Kategori</div>
+                <!-- Filter Kategori -->
+                <div class="category-button">
+                    <select id="categoryFilter" class="filter-dropdown">
+                        <option value="">Semua Kategori</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
-                <div class="category-button" id="stockButtonContainer">
-                    <div class="text-button">Stok</div>
+            
+                <!-- Filter Stok -->
+                <div class="category-button">
+                    <select id="stockFilter" class="filter-dropdown">
+                        <option value="">Semua Stok</option>
+                        <option value="Tersedia">Tersedia</option>
+                        <option value="Tidak Tersedia">Tidak Tersedia</option>
+                    </select>
                 </div>
             </div>
             <a href="{{ route('form-inventori') }}"><div class="add-button">
@@ -61,11 +73,25 @@
     $(document).ready(function () {
         loadTable();
 
+        // Event listener untuk filter kategori dan stok
+        $('#categoryFilter, #stockFilter').on('change', function () {
+            showLoading();
+            loadTable();
+            hideLoading();
+        });
+
         // Load data ke tabel
         function loadTable() {
+            const category = $('#categoryFilter').val();
+            const stock = $('#stockFilter').val();
+
             $.ajax({
                 url: "{{ route('inventori_crud') }}",
                 method: "GET",
+                data: {
+                    category: category,
+                    stock: stock
+                },
                 success: function (response) {
                     if (response.length > 0) {
                         let rows = '';

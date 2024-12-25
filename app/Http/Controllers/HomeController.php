@@ -41,8 +41,8 @@ class HomeController extends Controller
         return view('pages.penjualan.index');
     }
 
-    public function staff()
-    {
-        return view('pages.staff.index');
-    }
+    // public function staff()
+    // {
+    //     return view('pages.staff.index');
+    // }
 }

@@ -44,25 +44,25 @@
             </div>
         </a>
         @if (Auth::user()->role === 'Admin')
-            <a href="{{ route('inventori') }}">
-                <div class="menu-sidebar">
-                    <img class="menu-icon" alt="" src="{{ asset('assets/image/Box.svg') }}" />
-                    <div class="menu-text">Inventori</div>
-                </div>
-            </a>
-            <a href="{{ route('kategori') }}">
-                <div class="menu-sidebar {{ request()->is('kategori') ? 'selected' : '' }}">
-                    <img class="menu-icon" alt="" src="{{ asset('assets/image/Box.svg') }}" />
-                    <div class="menu-text">Kategori</div>
-                </div>
-            </a>
-        @endif
+        <a href="{{ route('inventori') }}">
+            <div class="menu-sidebar">
+                <img class="menu-icon" alt="" src="{{ asset('assets/image/Box.svg') }}" />
+                <div class="menu-text">Inventori</div>
+            </div>
+        </a>
+        <a href="{{ route('kategori') }}">
+            <div class="menu-sidebar {{ request()->is('kategori') ? 'selected' : '' }}">
+                <img class="menu-icon" alt="" src="{{ asset('assets/image/Box.svg') }}" />
+                <div class="menu-text">Kategori</div>
+            </div>
+        </a>
         <a href="{{ route('staff') }}">
             <div class="menu-sidebar">
                 <img class="menu-icon" alt="" src="{{ asset('assets/image/user-group.png') }}" />
                 <div class="menu-text">Staff</div>
             </div>
         </a>
+        @endif
     </div>
     <div class="sidebar-bottom">
         <div class="divider"></div>
