@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,4 +47,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/staff', [App\Http\Controllers\StaffController::class, 'index'])->name('staff');
     Route::get('/form-staff', [App\Http\Controllers\StaffController::class, 'form_staff'])->name('form-staff');
     Route::match(['get', 'post', 'patch', 'delete'], '/staff/crud', [StaffController::class, 'staffCrud'])->name('staff_crud');
+
+    // Transaction POS
+    Route::post('/transactions/store', [TransactionController::class, 'store'])->name('transactions.store');
 });
