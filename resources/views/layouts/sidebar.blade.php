@@ -9,11 +9,11 @@
         </a>
         <div class="dropdown" id="point-of-sale-dropdown" style="display: none;">
             <div class="dropdown-content">
-                <a href="{{ route('home') }}" class="dropdown-item">All</a>
-                <a href="{{ route('home') }}" class="dropdown-item">Coffee</a>
-                <a href="{{ route('home') }}" class="dropdown-item">Noncoffee</a>
-                <a href="{{ route('home') }}" class="dropdown-item">Mojito</a>
-                <a href="{{ route('home') }}" class="dropdown-item">Pastry & Snack</a>
+                <a href="{{ route('pos') }}" class="dropdown-item">All</a>
+                <a href="{{ route('pos') }}" class="dropdown-item">Coffee</a>
+                <a href="{{ route('pos') }}" class="dropdown-item">Noncoffee</a>
+                <a href="{{ route('pos') }}" class="dropdown-item">Mojito</a>
+                <a href="{{ route('pos') }}" class="dropdown-item">Pastry & Snack</a>
             </div>
         </div>
         <a href="#" class="menu-toggle" data-target="transaksi-dropdown">

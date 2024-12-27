@@ -3,7 +3,7 @@
         <img class="logo-icon" alt="" src="{{ asset('assets/image/Logo.png') }}" />
         <div class="text-header">
             <b class="logo-title">Q-POS</b>
-            <div class="date">Sabtu, 25 Oktober 2024</div>
+            <div class="date">{{ date('l, d F Y') }}</div>
         </div>
     </div>
     <div class="search">

@@ -23,13 +23,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/transaksi', [App\Http\Controllers\HomeController::class, 'transaksi'])->name('transaksi');
 Route::get('/keuangan', [App\Http\Controllers\HomeController::class, 'keuangan'])->name('keuangan');
 Route::get('/penjualan', [App\Http\Controllers\HomeController::class, 'penjualan'])->name('penjualan');
 
 Route::group(['middleware' => ['auth']], function () {
-    
+    // POS
+    Route::get('/pos', [App\Http\Controllers\TransactionController::class, 'pos'])->name('pos');
+    Route::post('/transactions/store', [TransactionController::class, 'store'])->name('transactions.store');
+    Route::get('/transaksi', [App\Http\Controllers\TransactionController::class, 'transaksi'])->name('transaksi');
+    Route::get('/transactions/{id}', [TransactionController::class, 'getTransactionDetails']);
+
 });
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
@@ -48,6 +51,4 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/form-staff', [App\Http\Controllers\StaffController::class, 'form_staff'])->name('form-staff');
     Route::match(['get', 'post', 'patch', 'delete'], '/staff/crud', [StaffController::class, 'staffCrud'])->name('staff_crud');
 
-    // Transaction POS
-    Route::post('/transactions/store', [TransactionController::class, 'store'])->name('transactions.store');
 });

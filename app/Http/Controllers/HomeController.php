@@ -22,16 +22,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        $inventories = DB::table('inventories')->get();
-        return view('pages.pos.index', compact('inventories'));
-    }
 
-    public function transaksi()
-    {
-        return view('pages.transaksi.index');
-    }
 
     public function keuangan()
     {
@@ -42,9 +33,4 @@ class HomeController extends Controller
     {
         return view('pages.penjualan.index');
     }
-
-    // public function staff()
-    // {
-    //     return view('pages.staff.index');
-    // }
 }

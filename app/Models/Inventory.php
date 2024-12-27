@@ -97,4 +97,9 @@ class Inventory extends Model
             return response()->json(['message' => 'failed', 'data' => $responseData], 400);
         }
     }
+
+    public function transaction_details()
+    {
+        return $this->hasMany(TransactionDetail::class, 'id_product');
+    }
 }
