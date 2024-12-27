@@ -2,6 +2,78 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('assets/css/page/transaksi.css') }}" />
+    <style>
+        /* Modal overlay */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; 
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%; 
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Close button */
+        .modal .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal .close:hover,
+        .modal .close:focus {
+            color: #000;
+            text-decoration: none;
+        }
+
+        .modal-header {
+            margin-bottom: 15px;
+        }
+
+        .modal-body input[type="date"] {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 16px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .modal-footer {
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        .modal-footer button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .modal-footer button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 @endpush
 
 @section('title')
@@ -56,6 +128,22 @@
         @endforeach
         </div>
     </div>
+
+    <div id="calendarModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2>Pilih Tanggal</h2>
+            </div>
+            <div class="modal-body">
+                <input type="date" id="calendarInputFirst" />
+                <input type="date" id="calendarInputLast" />
+            </div>
+            <div class="modal-footer">
+                <button id="calendarSubmit">Pilih</button>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('more-content')
@@ -105,55 +193,168 @@
 @section('js')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const transactions = document.querySelectorAll('.transaction');
+        function attachTransactionListeners() {
+            const transactions = document.querySelectorAll('.transaction');
 
-        transactions.forEach(transaction => {
-            transaction.addEventListener('click', function () {
-                const transactionId = this.dataset.id;
+            transactions.forEach(transaction => {
+                transaction.addEventListener('click', function () {
+                    const transactionId = this.dataset.id;
 
-                // Hapus id="transaction_pressed" dari elemen sebelumnya
-                transactions.forEach(item => item.removeAttribute('id'));
+                    // Hapus id="transaction_pressed" dari elemen sebelumnya
+                    transactions.forEach(item => item.removeAttribute('id'));
 
-                // Tambahkan id="transaction_pressed" ke elemen yang diklik
-                this.setAttribute('id', 'transaction-pressed');
+                    // Tambahkan id="transaction_pressed" ke elemen yang diklik
+                    this.setAttribute('id', 'transaction-pressed');
 
-                // Fetch detail transaksi menggunakan AJAX
-                fetch(`/transactions/${transactionId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Update invoice-info
-                        document.querySelector('#inv-no .output').innerText = `#${data.invoice_number}`;
-                        document.querySelector('#cashier .output').innerText = data.cashier;
-                        document.querySelector('#date .output').innerText = data.date;
-                        // document.querySelector('#pembayaran .output').innerText = data.payment_method;
+                    // Fetch detail transaksi menggunakan AJAX
+                    fetch(`/transactions/${transactionId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Update invoice-info
+                            document.querySelector('#inv-no .output').innerText = `#${data.invoice_number}`;
+                            document.querySelector('#cashier .output').innerText = data.cashier;
+                            document.querySelector('#date .output').innerText = data.date;
+                            // document.querySelector('#pembayaran .output').innerText = data.payment_method;
 
-                        // Update menu-order-info
-                        const menuOrderContainer = document.querySelector('.menu-order-info');
-                        menuOrderContainer.innerHTML = ''; // Kosongkan isi sebelumnya
+                            // Update menu-order-info
+                            const menuOrderContainer = document.querySelector('.menu-order-info');
+                            menuOrderContainer.innerHTML = ''; // Kosongkan isi sebelumnya
 
-                        data.items.forEach(item => {
-                            menuOrderContainer.innerHTML += `
-                                <div class="menu-order">
-                                    <div class="text-container">
-                                        <div class="text-top">
-                                            <div class="menu">${item.name}</div>
-                                            <div class="price">Rp ${item.price.toLocaleString('id-ID')}</div>
+                            data.items.forEach(item => {
+                                menuOrderContainer.innerHTML += `
+                                    <div class="menu-order">
+                                        <div class="text-container">
+                                            <div class="text-top">
+                                                <div class="menu">${item.name}</div>
+                                                <div class="price">Rp ${item.price.toLocaleString('id-ID')}</div>
+                                            </div>
+                                            <div class="text-bottom">
+                                                <div class="item">${item.quantity}x</div>
+                                                <div class="price-total">Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</div>
+                                            </div>
                                         </div>
-                                        <div class="text-bottom">
-                                            <div class="item">${item.quantity}x</div>
-                                            <div class="price-total">Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</div>
-                                        </div>
+                                    </div>
+                                `;
+                            });
+
+                            // Update footer
+                            document.querySelector('.aside-footer .item').innerText = `${data.total_items} Item`;
+                            document.querySelector('.aside-footer .price-bottom').innerText = `Rp ${data.total_price.toLocaleString('id-ID')}`;
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
+            });
+        }
+
+        attachTransactionListeners();
+
+        const calendarButton = document.getElementById('iconButtonCalendar');
+        const calendarModal = document.getElementById('calendarModal');
+        const closeModal = document.querySelector('.modal .close');
+        const calendarSubmit = document.getElementById('calendarSubmit');
+        const calendarInputFirst = document.getElementById('calendarInputFirst');
+        const calendarInputLast = document.getElementById('calendarInputLast');
+        const itemDisplay = document.getElementById('item-display');
+
+        // Open modal
+        calendarButton.addEventListener('click', function () {
+            calendarModal.style.display = 'block';
+        });
+
+        // Close modal
+        closeModal.addEventListener('click', function () {
+            calendarModal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function (event) {
+            if (event.target === calendarModal) {
+                calendarModal.style.display = 'none';
+            }
+        });
+
+        // Handle date selection
+        calendarSubmit.addEventListener('click', function (e) {            
+            const startDate = calendarInputFirst.value;
+            const endDate = calendarInputLast.value;
+
+            if (startDate && endDate && endDate > startDate) {
+                showLoading();
+                // Kirim filter menggunakan AJAX
+                fetch('/transactions/filter', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({ start_date: startDate, end_date: endDate })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Kosongkan tampilan transaksi sebelumnya
+                    itemDisplay.innerHTML = '';
+
+                    if (Object.keys(data).length > 0) {
+                        // Render data transaksi menggunakan template string
+                        let htmlContent = '';
+                        Object.entries(data).forEach(([date, transactions]) => {
+                            htmlContent += `
+                                <div class="transaction-container">
+                                    <div class="date">${new Date(date).toLocaleDateString('id-ID', {
+                                        day: '2-digit',
+                                        month: 'long',
+                                        year: 'numeric'
+                                    })}</div>
+                                    <div class="transaction-content">
+                                        ${transactions.map(transaction => `
+                                            <div class="transaction" data-id="${transaction.id}">
+                                                <div class="text-left">
+                                                    <div class="price-transaction">Rp ${parseInt(transaction.total_price).toLocaleString('id-ID')}</div>
+                                                    <div class="item-transaction">${transaction.total_qty} Item</div>
+                                                </div>
+                                                <div class="time">${new Date(transaction.created_at).toLocaleTimeString('id-ID', {
+                                                    hour: '2-digit',
+                                                    minute: '2-digit'
+                                                })}</div>
+                                            </div>
+                                        `).join('')}
                                     </div>
                                 </div>
                             `;
                         });
 
-                        // Update footer
-                        document.querySelector('.aside-footer .item').innerText = `${data.total_items} Item`;
-                        document.querySelector('.aside-footer .price-bottom').innerText = `Rp ${data.total_price.toLocaleString('id-ID')}`;
-                    })
-                    .catch(error => console.error('Error:', error));
-            });
+                        // Masukkan HTML yang telah dibuat ke dalam item-display
+                        itemDisplay.innerHTML = htmlContent;
+
+                        // Tambahkan ulang event listener untuk transaksi
+                        attachTransactionListeners();
+                        
+                    } else {
+                        itemDisplay.innerHTML = '<div>Tidak ada transaksi untuk rentang tanggal ini.</div>';
+                    }
+
+                    hideLoading();
+                    calendarModal.style.display = 'none';
+                    calendarInputFirst.value = '';
+                    calendarInputLast.value = '';
+                })
+                .catch(error => {
+                    hideLoading();
+                    calendarModal.style.display = 'none';
+                    calendarInputFirst.value = '';
+                    calendarInputLast.value = '';
+                    console.error('Error:', error);
+                });
+            } else {
+                // alert('Silakan pilih tanggal awal dan akhir!');
+                Swal.fire({
+                    title: 'Tanggal Tidak Valid!',
+                    text: "Tanggal akhir tidak boleh lebih awal dari tanggal awal!",
+                    type: 'error',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK!'
+                });
+            }
         });
     });
 </script>

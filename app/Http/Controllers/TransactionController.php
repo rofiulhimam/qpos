@@ -33,6 +33,31 @@ class TransactionController extends Controller
         return view('pages.transaksi.index', ['transactions' => $transactions]);
     }
 
+    public function filterTransactions(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+        ]);
+
+        $startDate = Carbon::parse($request->start_date)->startOfDay();
+        $endDate = Carbon::parse($request->end_date)->endOfDay();
+
+        $transactions = Transaction::with([
+            'transaction_details.inventory' => function ($query) {
+                $query->select('id', 'name', 'price');
+            }
+        ])
+        ->whereBetween('created_at', [$startDate, $endDate])
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->groupBy(function ($transaction) {
+            return $transaction->created_at->format('Y-m-d');
+        });
+
+        return response()->json($transactions);
+    }
+
     public function getTransactionDetails($id)
     {
         $transaction = Transaction::with('transaction_details.inventory')->find($id);

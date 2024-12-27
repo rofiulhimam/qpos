@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/transactions/store', [TransactionController::class, 'store'])->name('transactions.store');
     Route::get('/transaksi', [App\Http\Controllers\TransactionController::class, 'transaksi'])->name('transaksi');
     Route::get('/transactions/{id}', [TransactionController::class, 'getTransactionDetails']);
+    Route::post('/transactions/filter', [TransactionController::class, 'filterTransactions'])->name('transactions.filter');
 
 });
 
