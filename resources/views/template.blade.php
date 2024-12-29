@@ -28,6 +28,8 @@
     @stack('styles')
 
     <title>QPOS - @yield('title')</title>
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/image/logo.png') }}">
 </head>
 
 <body>

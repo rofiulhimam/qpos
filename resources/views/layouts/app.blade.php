@@ -9,6 +9,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>QPOS | @yield('title')</title>
+    
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/image/logo.png') }}">
 
     <!-- Fonts -->
     {{-- <link rel="dns-prefetch" href="//fonts.bunny.net">
