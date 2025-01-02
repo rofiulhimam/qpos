@@ -1,7 +1,96 @@
 @extends('template')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('assets/css/page/pos.css') }}" />    
+    <link rel="stylesheet" href="{{ asset('assets/css/page/pos.css') }}" />
+    <style>
+        /* Modal overlay */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; 
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Modal content */
+        .modal-content {
+            display: flex;
+            flex-direction: column;
+            background-color: #fefefe;
+            margin: 15% auto; 
+            padding: 5px 20px 20px 20px;
+            border: none;
+            width: 30%; 
+            border-radius: 12px;
+        }
+        .modal-container {
+            display: flex;
+            padding: 20px 20px;
+            flex-direction: column;
+        }
+
+        /* Center header */
+        .modal-header {
+            text-align: center; /* Center the header text */
+            margin-bottom: 15px;
+        }
+
+        /* Style for buttons */
+        .modal-body {
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            align-items: center; /* Center buttons horizontally */
+            padding: 0 20px;
+        }
+
+        .modal-body button {
+            background-color: var(--green-g300); /* Set background color */
+            color: #fff;
+            border: none;
+            padding: 25px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 5px 0; /* Add margin between buttons */
+            width: 100%; /* Make buttons stretch */
+        }
+
+        .modal-body button:hover {
+            background-color: rgb(8, 61, 8); /* Change color on hover */
+        }
+
+        /* Close button */
+        .modal .close {
+            color: #aaa;
+            text-align: end;
+            font-size: 25px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal .close:hover,
+        .modal .close:focus {
+            color: #000;
+            text-decoration: none;
+        }
+        .modal .close-nominal {
+            color: #aaa;
+            text-align: end;
+            font-size: 25px;
+            font-weight: 600;
+            cursor: pointer;;
+        }
+
+        .modal .close-nominal:hover,
+        .modal .close-nominal:focus {
+            color: #000;
+            text-decoration: none;
+        }
+    </style>    
 @endpush
 
 @section('title')
@@ -46,6 +135,7 @@ POS
         @endforeach
     </div>
 </div>
+
 @endsection
 
 @section('more-content')
@@ -68,12 +158,47 @@ POS
                     <input type="hidden" id="price_total" name="price_total" value="">
                 </div>
                 <div class="button-order">
-                    <button type="submit" class="button">Order</button>
+                    <button type="button" class="button" id="orderButton">Order</button>
                 </div>
             </div>
         </div>
     </form>
 </aside>
+
+<!-- Modal for payment method -->
+<div id="metode-pembayaran" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Metode Pembayaran</h2>
+            </div>
+            <div class="modal-body">
+                <button type="button" id="cash">Tunai</button>
+                <button type="button" id="cashless">Non Tunai</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for input nominal -->
+<div id="input-nominal" class="modal">
+    <div class="modal-content">
+        <span class="close-nominal">&times;</span>
+        <div class="modal-container">
+            <div class="modal-body">
+                <div class="title" style="display: flex; width: 100%; align-items: center; margin-bottom: 10px;">
+                    <img src="{{ asset('assets/image/calculator.svg') }}" alt="" style="margin-right: 10px;"/>
+                    <div style="font-size: 18px;">Masukkan Nominal</div>
+                </div>
+                <input type="text" id="nominal" placeholder="Rp 0" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 30px; box-sizing: border-box;" />
+            </div>
+            <div class="modal-footer" style="display: flex; width: 100%;">
+                <button type="button" id="submitNominal" style="background-color: var(--green-g300); width: 100%; color: white; border: none; padding: 10px; border-radius: 8px; margin: 0px 20px;">Bayar</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')
@@ -268,6 +393,82 @@ POS
                 });
                 console.error('Error:', error);
             });
+        });
+
+        const orderButton = document.getElementById('orderButton');
+        const modal = document.getElementById('metode-pembayaran');
+        const closeModal = modal.querySelector('.close');
+        const modalNominal = document.getElementById('input-nominal');
+        const closeNominalModal = modalNominal.querySelector('.close-nominal');
+
+        // Show modal when order button is clicked
+        orderButton.addEventListener('click', function() {
+            modal.style.display = 'block';
+        });
+
+        // Close modal for payment method
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        // Close modal for input nominal
+        closeNominalModal.addEventListener('click', function() {
+            modalNominal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside of the modal
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            } else if (event.target === modalNominal) {
+                modalNominal.style.display = 'none';
+            }
+        });
+
+        // Add event listeners for payment buttons
+        document.getElementById('cash').addEventListener('click', function() {
+            modal.style.display = 'none'; // Close payment method modal
+            modalNominal.style.display = 'block'; // Show input nominal modal
+        });
+
+        document.getElementById('cashless').addEventListener('click', function() {
+            // Handle cashless payment logic here
+            modal.style.display = 'none';
+            // You can also submit the form here if needed
+        });
+
+        // Handle submit nominal button
+        document.getElementById('submitNominal').addEventListener('click', function() {
+            const nominalValue = document.getElementById('nominal').value;
+            if (nominalValue) {
+                // Process the nominal value as needed
+                console.log('Nominal:', nominalValue);
+                modalNominal.style.display = 'none'; // Close input nominal modal
+            } else {
+                alert('Silakan masukkan nominal yang valid.');
+            }
+        });
+
+        // Format input nominal
+        const nominalInput = document.getElementById('nominal');
+
+        // Menambahkan event listener untuk format saat mengetik
+        nominalInput.addEventListener('input', function (e) {
+            // Menghapus semua karakter yang bukan angka
+            let value = this.value.replace(/[^0-9]/g, '');
+            
+            // Format dengan titik pemisah
+            if (value) {
+                value = parseInt(value).toLocaleString('id-ID');
+                this.value = 'Rp ' + value; // Menambahkan 'Rp ' di depan
+            } else {
+                this.value = 'Rp 0'; // Default jika tidak ada input
+            }
+        });
+
+        // Set default value saat modal dibuka
+        modalNominal.addEventListener('show', function() {
+            nominalInput.value = 'Rp 0'; // Set default value saat modal dibuka
         });
     });
 </script>
