@@ -191,7 +191,7 @@ POS
                     <img src="{{ asset('assets/image/calculator.svg') }}" alt="" style="margin-right: 10px;"/>
                     <div style="font-size: 18px;">Masukkan Nominal</div>
                 </div>
-                <input type="text" id="nominal" placeholder="Rp 0" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 30px; box-sizing: border-box;" />
+                <input type="text" id="nominal" placeholder="Rp 0" style="font-size: 14px; font-family: poppins; width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 30px; box-sizing: border-box;" />
             </div>
             <div class="modal-footer" style="display: flex; width: 100%;">
                 <button type="button" id="submitNominal" style="background-color: var(--green-g300); width: 100%; color: white; border: none; padding: 10px; border-radius: 8px; margin: 0px 20px;">Bayar</button>
