@@ -1,145 +1,7 @@
 @extends('template')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('assets/css/page/pos.css') }}" />
-    <style>
-        /* Modal overlay */
-        .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1000; 
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto; 
-            background-color: rgba(0, 0, 0, 0.4);
-            /* justify-content: center;
-            align-items: center; */
-        }
-
-        /* Modal content */
-        .modal-content {
-            display: flex;
-            flex-direction: column;
-            background-color: #fefefe;
-            margin: 15% auto; 
-            padding: 5px 20px 20px 20px;
-            border: none;
-            width: 30%; 
-            border-radius: 12px;
-        }
-        .modal-container {
-            display: flex;
-            padding: 20px 20px;
-            flex-direction: column;
-        }
-
-        /* Center header */
-        .modal-header {
-            text-align: center; /* Center the header text */
-            margin-bottom: 15px;
-        }
-
-        /* Style for buttons */
-        .modal-body {
-            display: flex;
-            flex-direction: column; /* Stack buttons vertically */
-            align-items: center; /* Center buttons horizontally */
-            padding: 0 20px;
-        }
-
-        .modal-body button {
-            background-color: var(--green-g300); /* Set background color */
-            color: #fff;
-            border: none;
-            padding: 25px 20px;
-            font-size: 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin: 5px 0; /* Add margin between buttons */
-            width: 100%; /* Make buttons stretch */
-        }
-
-        .modal-body button:hover {
-            background-color: rgb(8, 61, 8); /* Change color on hover */
-        }
-
-        /* Close button */
-        .modal .close {
-            color: #aaa;
-            text-align: end;
-            font-size: 25px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .modal .close:hover,
-        .modal .close:focus {
-            color: #000;
-            text-decoration: none;
-        }
-        .modal .close-nominal {
-            color: #aaa;
-            text-align: end;
-            font-size: 25px;
-            font-weight: 600;
-            cursor: pointer;;
-        }
-
-        .modal .close-nominal:hover,
-        .modal .close-nominal:focus {
-            color: #000;
-            text-decoration: none;
-        }
-
-        /* CSS untuk tabel di modal struk */
-        .modal-header table,
-        .modal-body table,
-        .modal-footer table {
-            width: 100%; /* Pastikan tabel mengisi lebar modal */
-            border-collapse: collapse; /* Menghilangkan jarak antara sel */
-            border: none; /* Tambahkan border pada tabel */
-            margin: 0 auto; /* Pusatkan tabel */
-        }
-
-        .modal-header,
-        .modal-body,
-        .modal-footer {
-            padding: 0; /* Hapus padding pada bagian modal */
-            margin: 0; /* Hapus margin pada bagian modal */
-        }
-
-        .modal-header td,
-        .modal-body td,
-        .modal-footer td {
-            padding: 0; /* Hapus padding pada sel */
-            font-size: 14px; /* Ukuran font */
-            border: none; /* Tambahkan border pada sel */
-        }
-
-        /* Rata kiri untuk kolom pertama */
-        .modal-header td:first-child,
-        .modal-body td:first-child,
-        .modal-footer td:first-child {
-            text-align: left; /* Rata kiri */
-        }
-
-        /* Rata kanan untuk kolom kedua */
-        .modal-header td:last-child,
-        .modal-body td:last-child,
-        .modal-footer td:last-child {
-            text-align: right; /* Rata kanan */
-        }
-
-        /* Rata tengah untuk kolom menu */
-        .modal-body td:nth-child(2) {
-            text-align: start; /* Rata tengah untuk kolom menu */
-        }
-        .modal-body td:first-child {
-            width: 9%; /* Rata tengah untuk kolom menu */
-        }
-    </style>    
+    <link rel="stylesheet" href="{{ asset('assets/css/page/pos.css') }}" />  
 @endpush
 
 @section('title')
@@ -223,8 +85,8 @@ POS
                 <h2>Metode Pembayaran</h2>
             </div>
             <div class="modal-body">
-                <button type="button" id="cash">Tunai</button>
-                <button type="button" id="cashless">Non Tunai</button>
+                <button type="button" id="cash" data-payment="Tunai">Tunai</button>
+                <button type="button" id="cashless" data-payment="Non Tunai">Non Tunai</button>
             </div>
         </div>
     </div>
@@ -240,7 +102,8 @@ POS
                     <img src="{{ asset('assets/image/calculator.svg') }}" alt="" style="margin-right: 10px;"/>
                     <div style="font-size: 18px;">Masukkan Nominal</div>
                 </div>
-                <input type="text" id="nominal" placeholder="Rp 0" style="font-size: 14px; font-family: poppins; width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 30px; box-sizing: border-box;" />
+                <input type="text" id="nominal_display" placeholder="Silahkan masukan nominal" style="font-size: 14px; font-family: poppins; width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 30px; box-sizing: border-box;" />
+                <input type="hidden" name="nominal_input" id="nominal_input" value="">
             </div>
             <div class="modal-footer" style="display: flex; width: 100%;">
                 <button type="button" id="submitNominal" style="background-color: var(--green-g300); width: 100%; color: white; border: none; padding: 10px; border-radius: 8px; margin: 0px 20px;">Bayar</button>
@@ -318,6 +181,19 @@ POS
 
 @section('js')
 <script>
+    function formatCurrency(value) {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+        }).format(value);
+    }
+
+    // Fungsi untuk menghapus karakter non-digit
+    function parseCurrency(value) {
+        return value.replace(/[^0-9]/g, '');
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         const menuCards = document.querySelectorAll('.menu-card');
         const menuOrderContainer = document.querySelector('.menu-order-container');
@@ -325,7 +201,7 @@ POS
         const qtyTotal = document.querySelector('.qty-total');
         const priceTotal = document.querySelector('.price-total');
 
-        const orderForm = document.querySelector('#form');
+        // const orderForm = document.querySelector('#form');
         const inputQtyTotal = document.querySelector('#qty_total');
         const inputPriceTotal = document.querySelector('#price_total');
 
@@ -389,12 +265,12 @@ POS
             updatePrice();
         }
 
-        // Fungsi untuk menemukan elemen berdasarkan nama
-        function findMenuOrderByName(name) {
+        // Fungsi untuk menemukan elemen berdasarkan id
+        function findMenuOrderById(id_product) {
             return Array.from(menuOrderContainer.children).find(orderItem => {
-                const nameElement = orderItem.querySelector('.name');
-                if (nameElement) {
-                    return nameElement.textContent === name;
+                const idElement = orderItem.getAttribute('data-id');
+                if (idElement) {
+                    return idElement === id_product;
                 }
                 return false;
             });
@@ -412,7 +288,7 @@ POS
                     minimumFractionDigits: 0,
                 }).format(price);
 
-                const existingOrder = findMenuOrderByName(name);
+                const existingOrder = findMenuOrderById(id_product);
 
                 if (existingOrder) {
                     Swal.fire({
@@ -462,8 +338,120 @@ POS
             updateSummary(); // Reset ringkasan setelah semua item dihapus
         });
 
-        orderForm.addEventListener('submit', function(e) {
+        const orderButton = document.getElementById('orderButton');
+        const paymentModal = document.getElementById('metode-pembayaran');
+        const closeModal = paymentModal.querySelector('.close');
+
+        const nominalDisplay = document.getElementById('nominal_display');
+        const nominalInput = document.getElementById('nominal_input');
+
+        // Event listener untuk memformat input harga saat mengetik
+        nominalDisplay.addEventListener('input', function (e) {
+            const rawValue = parseCurrency(e.target.value);
+            nominalInput.value = rawValue; // Simpan nilai integer di input hidden
+            e.target.value = rawValue ? formatCurrency(rawValue) : '';
+        });
+
+        // Event listener untuk memformat ulang saat input kehilangan fokus
+        nominalDisplay.addEventListener('blur', function (e) {
+            const rawValue = parseCurrency(e.target.value);
+            e.target.value = rawValue ? formatCurrency(rawValue) : '';
+        });
+
+        // Event listener untuk tombol Order
+        orderButton.addEventListener('click', function() {
+            if (menuOrderContainer.querySelectorAll('.menu-order').length === 0) {
+                Swal.fire({
+                    type: 'warning',
+                    title: 'Pesanan Kosong!',
+                    text: 'Silakan tambahkan setidaknya satu item ke pesanan sebelum melakukan pembayaran.',
+                    confirmButtonText: 'OK'
+                });
+            } else {
+                paymentModal.style.display = 'block'; // Tampilkan modal metode pembayaran
+            }
+        });
+
+        // Event listener untuk tombol Cash
+        document.getElementById('cash').addEventListener('click', function() {
+            paymentModal.style.display = 'none'; // Tutup modal metode pembayaran
+            document.getElementById('input-nominal').style.display = 'block'; // Tampilkan modal input nominal
+        });
+
+        // Event listener untuk tombol Bayar
+        document.getElementById('submitNominal').addEventListener('click', function(e) {
             e.preventDefault();
+            // const nominalValue = document.getElementById('nominal').value.replace(/[^0-9]/g, ''); // Ambil nilai numerik
+            const payment_amount = parseInt(nominalInput.value);
+            const price_total = parseInt(inputPriceTotal.value);
+            const qty_total = parseInt(inputQtyTotal.value);
+            const changes = payment_amount - price_total;
+            const payment_method = document.getElementById('cash').getAttribute('data-payment');
+
+            if (payment_amount) {
+                let items = [];
+                menuOrderContainer.querySelectorAll('.menu-order').forEach(orderItem => {
+                    const id_product = orderItem.getAttribute('data-id');
+                    const qty = parseInt(orderItem.querySelector('.input-qty .div').textContent);
+                    items.push({
+                        id_product: id_product,
+                        qty: qty,
+                    });
+                });
+
+                const data = {
+                    qty_total: qty_total,
+                    price_total: price_total,
+                    payment_method: payment_method,
+                    payment_amount: payment_amount,
+                    changes: changes,
+                    items: items
+                };
+
+                fetch('{{ route('transactions.store') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    document.getElementById('input-nominal').style.display = 'none'; // Tutup modal input nominal
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Transaksi Berhasil',
+                        text: result.message
+                    });
+
+                    nominalDisplay.value = '';
+                    nominalInput.value = '';
+                    menuOrderContainer.innerHTML = ''; // Bersihkan pesanan
+                    document.querySelector('.qty-total').textContent = '0 Item';
+                    document.querySelector('.price-total').textContent = 'Rp 0';
+                })
+                .catch(error => {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Gagal',
+                        text: 'Terjadi kesalahan saat menyimpan transaksi'
+                    });
+                    console.error('Error:', error);
+                });
+            } else {
+                alert('Silakan masukkan nominal yang valid.');
+            }
+        });
+
+        document.getElementById('cashless').addEventListener('click', function(e) {
+            e.preventDefault();
+            // const nominalValue = document.getElementById('nominal').value.replace(/[^0-9]/g, ''); // Ambil nilai numerik
+            const price_total = parseInt(inputPriceTotal.value);
+            const qty_total = parseInt(inputQtyTotal.value);
+            const payment_amount = price_total;
+            const changes = 0;
+            const payment_method = document.getElementById('cashless').getAttribute('data-payment');
 
             let items = [];
             menuOrderContainer.querySelectorAll('.menu-order').forEach(orderItem => {
@@ -476,8 +464,11 @@ POS
             });
 
             const data = {
-                qty_total: parseInt(inputQtyTotal.value) || 0,
-                price_total: parseInt(priceTotal.textContent.replace(/[^\d]/g, '')) || 0,
+                qty_total: qty_total,
+                price_total: price_total,
+                payment_method: payment_method,
+                payment_amount: payment_amount,
+                changes: changes,
                 items: items
             };
 
@@ -491,17 +482,18 @@ POS
             })
             .then(response => response.json())
             .then(result => {
+                paymentModal.style.display = 'none'; // Tutup modal metode pembayaran
                 Swal.fire({
                     type: 'success',
                     title: 'Transaksi Berhasil',
                     text: result.message
                 });
+
+                nominalDisplay.value = '';
+                nominalInput.value = '';
                 menuOrderContainer.innerHTML = ''; // Bersihkan pesanan
                 document.querySelector('.qty-total').textContent = '0 Item';
                 document.querySelector('.price-total').textContent = 'Rp 0';
-
-                // Show receipt after successful order submission
-                showReceipt();
             })
             .catch(error => {
                 Swal.fire({
@@ -511,96 +503,7 @@ POS
                 });
                 console.error('Error:', error);
             });
-        });
-
-        const orderButton = document.getElementById('orderButton');
-        const paymentModal = document.getElementById('metode-pembayaran');
-        const closeModal = paymentModal.querySelector('.close');
-
-        // Event listener untuk tombol Order
-        orderButton.addEventListener('click', function() {
-            paymentModal.style.display = 'block'; // Tampilkan modal metode pembayaran
-        });
-
-        // Event listener untuk tombol Cash
-        document.getElementById('cash').addEventListener('click', function() {
-            paymentModal.style.display = 'none'; // Tutup modal metode pembayaran
-            document.getElementById('input-nominal').style.display = 'block'; // Tampilkan modal input nominal
-        });
-
-        // Event listener untuk tombol Bayar
-        document.getElementById('submitNominal').addEventListener('click', function() {
-            const nominalValue = document.getElementById('nominal').value.replace(/[^0-9]/g, ''); // Ambil nilai numerik
-            if (nominalValue) {
-                // Proses nilai nominal
-                console.log('Nominal:', nominalValue);
-                document.getElementById('input-nominal').style.display = 'none'; // Tutup modal input nominal
-
-                // Tampilkan struk setelah pembayaran
-                showReceipt(parseInt(nominalValue)); // Panggil fungsi showReceipt dengan total yang dibayarkan
-            } else {
-                alert('Silakan masukkan nominal yang valid.');
-            }
-        });
-
-        // Fungsi untuk menampilkan struk
-        function showReceipt(totalPaid) {
-            const receiptModal = document.getElementById('receipt-modal');
-            const invoiceNumber = document.getElementById('invoice-number');
-            const invoiceTime = document.getElementById('invoice-time');
-            const cashierName = document.getElementById('cashier-name');
-            const receiptBody = document.getElementById('receipt-body');
-            const subtotalElement = document.getElementById('subtotal');
-            const totalBillElement = document.getElementById('total-bill');
-            const totalPaidElement = document.getElementById('total-paid');
-            const changeElement = document.getElementById('change');
-
-            // Set invoice details
-            invoiceNumber.textContent = Math.floor(Math.random() * 1000000); // Generate random invoice number
-            invoiceTime.textContent = new Date().toLocaleString(); // Current time
-            cashierName.textContent = "Nama Kasir"; // Replace with actual cashier name
-
-            // Clear previous receipt items
-            const tbody = receiptBody.querySelector('tbody');
-            tbody.innerHTML = ''; // Clear previous items
-
-            // Calculate subtotal and total bill
-            let subtotal = 0;
-            menuOrderContainer.querySelectorAll('.menu-order').forEach(orderItem => {
-                const qty = parseInt(orderItem.querySelector('.input-qty .div').textContent);
-                const name = orderItem.querySelector('.name').textContent;
-                const price = parseInt(orderItem.querySelector('.menu-selected .price').textContent.replace(/[^\d]/g, ''));
-
-                // Calculate total price for this item
-                const totalPriceForItem = qty * price;
-
-                // Add to subtotal
-                subtotal += totalPriceForItem;
-
-                // Add item to receipt table
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${qty}</td>
-                    <td>${name}</td>
-                    <td>${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(totalPriceForItem)}</td>
-                `;
-                tbody.appendChild(row);
-            });
-
-            // Set totals
-            subtotalElement.textContent = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(subtotal);
-            totalBillElement.textContent = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(subtotal);
-            totalPaidElement.textContent = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(totalPaid);
-            changeElement.textContent = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(totalPaid - subtotal);
-
-            // Show the receipt modal
-            receiptModal.style.display = 'block';
-        }
-
-        // Event listener for closing the receipt modal
-        document.querySelector('.close-receipt').addEventListener('click', function() {
-            document.getElementById('receipt-modal').style.display = 'none';
-        });
+        });      
 
         // Close modal for payment method
         closeModal.addEventListener('click', function() {
@@ -618,8 +521,6 @@ POS
                 paymentModal.style.display = 'none';
             } else if (event.target === document.getElementById('input-nominal')) {
                 document.getElementById('input-nominal').style.display = 'none';
-            } else if (event.target === document.getElementById('receipt-modal')) {
-                document.getElementById('receipt-modal').style.display = 'none';
             }
         });
     });

@@ -16,6 +16,9 @@ return new class extends Migration
             $table->integer('total_qty');
             $table->integer('total_price');
             $table->string('cashier_name');
+            $table->enum('payment_method', ['Tunai', 'Non Tunai']);
+            $table->integer('payment_amount');
+            $table->integer('changes');
             $table->timestamps();
         });
     }

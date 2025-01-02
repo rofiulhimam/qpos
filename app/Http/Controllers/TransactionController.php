@@ -90,6 +90,9 @@ class TransactionController extends Controller
         $validatedData = $request->validate([
             'qty_total' => 'required|integer',
             'price_total' => 'required|integer',
+            'payment_method' => 'required|string',
+            'payment_amount' => 'required|integer',
+            'changes' => 'required|integer',
             'items' => 'required|array',
         ]);
 
@@ -100,6 +103,9 @@ class TransactionController extends Controller
             $transaction = Transaction::create([
                 'total_qty' => $validatedData['qty_total'],
                 'total_price' => $validatedData['price_total'],
+                'payment_method' => $validatedData['payment_method'],
+                'payment_amount' => $validatedData['payment_amount'],
+                'changes' => $validatedData['changes'],
                 'cashier_name' => Auth::user()->name,
             ]);
 

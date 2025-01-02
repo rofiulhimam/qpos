@@ -93,7 +93,7 @@
 @section('main-content')
     <div class="main-content">
         <div class="main-title">
-            <div class="text-title">Oktober 2024</div>
+            <div class="text-title">Data Transaksi</div>
             <div class="button">
                 <div class="icon-button" id="iconButtonCalendar">
                     <img class="calendar-calendar-days" alt=""
@@ -413,7 +413,7 @@
                             attachTransactionListeners();
                             
                         } else {
-                            itemDisplay.innerHTML = '<div>Tidak ada transaksi untuk rentang tanggal ini.</div>';
+                            itemDisplay.innerHTML = '<div>Tidak ada transaksi pada tanggal ini.</div>';
                         }
 
                         hideLoading();

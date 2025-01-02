@@ -75,7 +75,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: url("Image.png");
+  /* background-image: url("Image.png"); */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top;
@@ -456,3 +456,142 @@ main {
   height: calc(100vh - 60px);
   overflow: hidden;
 }
+
+/* MODAL MASTER */
+/* Modal overlay */
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1000; 
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; 
+  background-color: rgba(0, 0, 0, 0.4);
+  /* justify-content: center;
+  align-items: center; */
+}
+
+/* Modal content */
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  background-color: #fefefe;
+  margin: 15% auto; 
+  padding: 5px 20px 20px 20px;
+  border: none;
+  width: 30%; 
+  border-radius: 12px;
+}
+.modal-container {
+  display: flex;
+  padding: 20px 20px;
+  flex-direction: column;
+}
+
+/* Center header */
+.modal-header {
+  text-align: center; /* Center the header text */
+  margin-bottom: 15px;
+}
+
+/* Style for buttons */
+.modal-body {
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  align-items: center; /* Center buttons horizontally */
+  padding: 0 20px;
+}
+
+.modal-body button {
+  background-color: var(--green-g300); /* Set background color */
+  color: #fff;
+  border: none;
+  padding: 25px 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 5px 0; /* Add margin between buttons */
+  width: 100%; /* Make buttons stretch */
+}
+
+.modal-body button:hover {
+  background-color: rgb(8, 61, 8); /* Change color on hover */
+}
+
+/* Close button */
+.modal .close {
+  color: #aaa;
+  text-align: end;
+  font-size: 25px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal .close:hover,
+.modal .close:focus {
+  color: #000;
+  text-decoration: none;
+}
+.modal .close-nominal {
+  color: #aaa;
+  text-align: end;
+  font-size: 25px;
+  font-weight: 600;
+  cursor: pointer;;
+}
+
+.modal .close-nominal:hover,
+.modal .close-nominal:focus {
+  color: #000;
+  text-decoration: none;
+}
+
+/* CSS untuk tabel di modal struk */
+.modal-header table,
+.modal-body table,
+.modal-footer table {
+  width: 100%; /* Pastikan tabel mengisi lebar modal */
+  border-collapse: collapse; /* Menghilangkan jarak antara sel */
+  border: none; /* Tambahkan border pada tabel */
+  margin: 0 auto; /* Pusatkan tabel */
+}
+
+.modal-header,
+.modal-body,
+.modal-footer {
+  padding: 0; /* Hapus padding pada bagian modal */
+  margin: 0; /* Hapus margin pada bagian modal */
+}
+
+.modal-header td,
+.modal-body td,
+.modal-footer td {
+  padding: 0; /* Hapus padding pada sel */
+  font-size: 14px; /* Ukuran font */
+  border: none; /* Tambahkan border pada sel */
+}
+
+/* Rata kiri untuk kolom pertama */
+.modal-header td:first-child,
+.modal-body td:first-child,
+.modal-footer td:first-child {
+  text-align: left; /* Rata kiri */
+}
+
+/* Rata kanan untuk kolom kedua */
+.modal-header td:last-child,
+.modal-body td:last-child,
+.modal-footer td:last-child {
+  text-align: right; /* Rata kanan */
+}
+
+/* Rata tengah untuk kolom menu */
+.modal-body td:nth-child(2) {
+  text-align: start; /* Rata tengah untuk kolom menu */
+}
+.modal-body td:first-child {
+  width: 9%; /* Rata tengah untuk kolom menu */
+}
+/* END OF MODAL MASTER */
