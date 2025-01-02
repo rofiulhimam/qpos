@@ -52,13 +52,13 @@
         </a>
         <a href="{{ route('kategori') }}">
             <div class="menu-sidebar {{ request()->is('kategori') ? 'selected' : '' }}">
-                <img class="menu-icon" alt="" src="{{ asset('assets/image/Box.svg') }}" />
+                <img class="menu-icon" alt="" src="{{ asset('assets/image/category.svg') }}" />
                 <div class="menu-text">Kategori</div>
             </div>
         </a>
         <a href="{{ route('staff') }}">
             <div class="menu-sidebar">
-                <img class="menu-icon" alt="" src="{{ asset('assets/image/user-group.png') }}" />
+                <img class="menu-icon" alt="" src="{{ asset('assets/image/staff.svg') }}" />
                 <div class="menu-text">Staff</div>
             </div>
         </a>

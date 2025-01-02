@@ -31,12 +31,10 @@ Tambah Inventori
                         </p>
                     </div>
                 </div>
-                <div class="input-image">
-                    <label for="image">
-                        <img id="image-preview" src="{{ asset('assets/image/Plus-grey.svg') }}" alt="Preview Gambar" style="max-width: 150px; max-height: 150px; margin-bottom: 10px; display: block;">
+                <div class="input-image" style="cursor: pointer;">
+                    <label for="image" style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
+                        <img id="image-preview" src="{{ asset('assets/image/Plus-grey.svg') }}" alt="Preview Gambar" style="max-width: 150px; max-height: 150px; margin: auto;">
                         <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png" style="display: none;" />
-                        {{-- <img class="plus" src="{{ asset('assets/image/Plus-grey.svg') }}" />
-                        <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png" style="display: none;" value="" /> --}}
                     </label>
                 </div>
             </div>
@@ -209,10 +207,16 @@ Tambah Inventori
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     imagePreview.src = e.target.result; // Set preview gambar
+                    imagePreview.style.objectFit = 'cover'; // Pastikan gambar mengisi kontainer dengan perbandingan ukuran yang tetap
+                    imagePreview.style.width = '100%'; // Pastikan lebar gambar mengisi kontainer
+                    imagePreview.style.height = '100%'; // Pastikan tinggi gambar mengisi kontainer
                 };
                 reader.readAsDataURL(file);
             } else {
                 imagePreview.src = "{{ asset('assets/image/Plus-grey.svg') }}"; // Reset ke placeholder jika tidak ada file
+                imagePreview.style.objectFit = 'cover'; // Pastikan gambar mengisi kontainer dengan perbandingan ukuran yang tetap
+                imagePreview.style.width = '100%'; // Pastikan lebar gambar mengisi kontainer
+                imagePreview.style.height = '100%'; // Pastikan tinggi gambar mengisi kontainer
             }
         });
         // End of Preview Image Uploaded //

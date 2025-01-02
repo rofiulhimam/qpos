@@ -36,7 +36,7 @@ POS
         @foreach ($inventories as $item)
         <div class="menu-card" data-id="{{ $item->id }}" data-name="{{ $item->name }}" data-price="{{ $item->price }}">
             <div class="image">
-                <img class="image-5-icon" alt="" src="{{ asset('image/inventory/'.$item->image) }}" />
+                <img class="image-5-icon" alt="" src="{{ asset('image/inventory/'.$item->image) }}" style="max-width:100%; height:auto;" />
             </div>
             <div class="information">
                 <div class="name-menu">{{ $item->name }}</div>

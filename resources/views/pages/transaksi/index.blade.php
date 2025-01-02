@@ -61,17 +61,17 @@
         }
 
         .modal-footer button {
-            background-color: #007bff;
+            background-color: var(--green-g300);
             color: #fff;
             border: none;
             padding: 10px 20px;
             font-size: 16px;
-            border-radius: 4px;
+            border-radius: 10px;
             cursor: pointer;
         }
 
         .modal-footer button:hover {
-            background-color: #0056b3;
+            background-color: var(--green-g300);
         }
     </style>
 @endpush
@@ -135,9 +135,14 @@
             <div class="modal-header">
                 <h2>Pilih Tanggal</h2>
             </div>
-            <div class="modal-body">
-                <input type="date" id="calendarInputFirst" />
-                <input type="date" id="calendarInputLast" />
+            <div class="modal-body" style="display: flex; align-items: center;">
+                <input type="date" id="calendarInputFirst" style="padding: 10px; margin: 5px; font-family: 'Poppins', sans-serif;" />
+                <div id="strip" style="display: none"> - </div>
+                <input type="date" id="calendarInputLast" style="display: none; padding: 10px; margin: 5px; font-family: 'Poppins', sans-serif;" />
+            </div>
+            <div>
+                <input type="checkbox" id="toggleRange" style="accent-color: var(--green-g300);" />
+                <label for="toggleRange">Rentang Waktu</label>
             </div>
             <div class="modal-footer">
                 <button id="calendarSubmit">Pilih</button>
@@ -255,6 +260,7 @@
         const calendarInputFirst = document.getElementById('calendarInputFirst');
         const calendarInputLast = document.getElementById('calendarInputLast');
         const itemDisplay = document.getElementById('item-display');
+        const toggleRange = document.getElementById('toggleRange');
 
         // Open modal
         calendarButton.addEventListener('click', function () {
@@ -278,82 +284,171 @@
             const startDate = calendarInputFirst.value;
             const endDate = calendarInputLast.value;
 
-            if (startDate && endDate && endDate > startDate) {
-                showLoading();
-                // Kirim filter menggunakan AJAX
-                fetch('/transactions/filter', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                    },
-                    body: JSON.stringify({ start_date: startDate, end_date: endDate })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Kosongkan tampilan transaksi sebelumnya
-                    itemDisplay.innerHTML = '';
+            if (toggleRange.checked) {
+                // Jika rentang waktu dicentang, pastikan kedua tanggal valid
+                if (startDate && endDate && endDate > startDate) {
+                    showLoading();
+                    // Kirim filter menggunakan AJAX
+                    fetch('/transactions/filter', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({ start_date: startDate, end_date: endDate })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Kosongkan tampilan transaksi sebelumnya
+                        itemDisplay.innerHTML = '';
 
-                    if (Object.keys(data).length > 0) {
-                        // Render data transaksi menggunakan template string
-                        let htmlContent = '';
-                        Object.entries(data).forEach(([date, transactions]) => {
-                            htmlContent += `
-                                <div class="transaction-container">
-                                    <div class="date">${new Date(date).toLocaleDateString('id-ID', {
-                                        day: '2-digit',
-                                        month: 'long',
-                                        year: 'numeric'
-                                    })}</div>
-                                    <div class="transaction-content">
-                                        ${transactions.map(transaction => `
-                                            <div class="transaction" data-id="${transaction.id}">
-                                                <div class="text-left">
-                                                    <div class="price-transaction">Rp ${parseInt(transaction.total_price).toLocaleString('id-ID')}</div>
-                                                    <div class="item-transaction">${transaction.total_qty} Item</div>
+                        if (Object.keys(data).length > 0) {
+                            // Render data transaksi menggunakan template string
+                            let htmlContent = '';
+                            Object.entries(data).forEach(([date, transactions]) => {
+                                htmlContent += `
+                                    <div class="transaction-container">
+                                        <div class="date">${new Date(date).toLocaleDateString('id-ID', {
+                                            day: '2-digit',
+                                            month: 'long',
+                                            year: 'numeric'
+                                        })}</div>
+                                        <div class="transaction-content">
+                                            ${transactions.map(transaction => `
+                                                <div class="transaction" data-id="${transaction.id}">
+                                                    <div class="text-left">
+                                                        <div class="price-transaction">Rp ${parseInt(transaction.total_price).toLocaleString('id-ID')}</div>
+                                                        <div class="item-transaction">${transaction.total_qty} Item</div>
+                                                    </div>
+                                                    <div class="time">${new Date(transaction.created_at).toLocaleTimeString('id-ID', {
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    })}</div>
                                                 </div>
-                                                <div class="time">${new Date(transaction.created_at).toLocaleTimeString('id-ID', {
-                                                    hour: '2-digit',
-                                                    minute: '2-digit'
-                                                })}</div>
-                                            </div>
-                                        `).join('')}
+                                            `).join('')}
+                                        </div>
                                     </div>
-                                </div>
-                            `;
-                        });
+                                `;
+                            });
 
-                        // Masukkan HTML yang telah dibuat ke dalam item-display
-                        itemDisplay.innerHTML = htmlContent;
+                            // Masukkan HTML yang telah dibuat ke dalam item-display
+                            itemDisplay.innerHTML = htmlContent;
 
-                        // Tambahkan ulang event listener untuk transaksi
-                        attachTransactionListeners();
-                        
-                    } else {
-                        itemDisplay.innerHTML = '<div>Tidak ada transaksi untuk rentang tanggal ini.</div>';
-                    }
+                            // Tambahkan ulang event listener untuk transaksi
+                            attachTransactionListeners();
+                            
+                        } else {
+                            itemDisplay.innerHTML = '<div>Tidak ada transaksi untuk rentang tanggal ini.</div>';
+                        }
 
-                    hideLoading();
-                    calendarModal.style.display = 'none';
-                    calendarInputFirst.value = '';
-                    calendarInputLast.value = '';
-                })
-                .catch(error => {
-                    hideLoading();
-                    calendarModal.style.display = 'none';
-                    calendarInputFirst.value = '';
-                    calendarInputLast.value = '';
-                    console.error('Error:', error);
-                });
+                        hideLoading();
+                        calendarModal.style.display = 'none';
+                        calendarInputFirst.value = '';
+                        calendarInputLast.value = '';
+                    })
+                    .catch(error => {
+                        hideLoading();
+                        console.error('Error:', error);
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Tanggal Tidak Valid!',
+                        text: "Tanggal akhir tidak boleh lebih awal dari tanggal awal!",
+                        type: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK!'
+                    });
+                }
             } else {
-                // alert('Silakan pilih tanggal awal dan akhir!');
-                Swal.fire({
-                    title: 'Tanggal Tidak Valid!',
-                    text: "Tanggal akhir tidak boleh lebih awal dari tanggal awal!",
-                    type: 'error',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'OK!'
-                });
+                // Jika hanya memilih satu tanggal
+                if (startDate) {
+                    showLoading();
+                    // Kirim filter menggunakan AJAX untuk satu tanggal
+                    fetch('/transactions/filter', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({ start_date: startDate, end_date: startDate }) // Kirim tanggal yang sama untuk start dan end
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Kosongkan tampilan transaksi sebelumnya
+                        itemDisplay.innerHTML = '';
+
+                        if (Object.keys(data).length > 0) {
+                            // Render data transaksi menggunakan template string
+                            let htmlContent = '';
+                            Object.entries(data).forEach(([date, transactions]) => {
+                                htmlContent += `
+                                    <div class="transaction-container">
+                                        <div class="date">${new Date(date).toLocaleDateString('id-ID', {
+                                            day: '2-digit',
+                                            month: 'long',
+                                            year: 'numeric'
+                                        })}</div>
+                                        <div class="transaction-content">
+                                            ${transactions.map(transaction => `
+                                                <div class="transaction" data-id="${transaction.id}">
+                                                    <div class="text-left">
+                                                        <div class="price-transaction">Rp ${parseInt(transaction.total_price).toLocaleString('id-ID')}</div>
+                                                        <div class="item-transaction">${transaction.total_qty} Item</div>
+                                                    </div>
+                                                    <div class="time">${new Date(transaction.created_at).toLocaleTimeString('id-ID', {
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    })}</div>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                `;
+                            });
+
+                            // Masukkan HTML yang telah dibuat ke dalam item-display
+                            itemDisplay.innerHTML = htmlContent;
+
+                            // Tambahkan ulang event listener untuk transaksi
+                            attachTransactionListeners();
+                            
+                        } else {
+                            itemDisplay.innerHTML = '<div>Tidak ada transaksi untuk rentang tanggal ini.</div>';
+                        }
+
+                        hideLoading();
+                        calendarModal.style.display = 'none';
+                        calendarInputFirst.value = '';
+                        calendarInputLast.value = '';
+                    })
+                    .catch(error => {
+                        hideLoading();
+                        console.error('Error:', error);
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Tanggal Tidak Valid!',
+                        text: "Silakan pilih tanggal!",
+                        type: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK!'
+                    });
+                }
+            }
+        });
+
+        // Event listener untuk checkbox rentang waktu
+        toggleRange.addEventListener('change', function () {
+            if (this.checked) {
+                // Tampilkan input tanggal kedua
+                calendarInputLast.style.display = 'block';
+                strip.style.display = 'block'
+
+            } else {
+                // Sembunyikan input tanggal kedua
+                strip.style.display = 'none'
+                calendarInputLast.style.display = 'none';
+                calendarInputLast.value = ''; // Reset nilai
             }
         });
     });
