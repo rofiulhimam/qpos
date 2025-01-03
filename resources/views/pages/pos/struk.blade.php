@@ -6,21 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Struk</title>
     <style>
+        html{
+            background-color: rgb(8, 61, 8, 0.8);
+        }
         body {
             display: flex;
-            height: 100vh;
+            width: 340px;
             justify-content: center;
             align-items: center;
             font-family: 'Poppins', sans-serif;
             margin: auto;
             font-size: 14px;
-            background-color: rgb(8, 61, 8, 0.8);
         }
         .modal {
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 340px;
+            width: 100%;
             background-color: white;
         }
         .modal-content {
@@ -28,7 +30,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 340px;
+            width: 100%;
         }
         .modal-info {
             display: flex;
@@ -110,15 +112,15 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td>No inv:</td>
+                                <td>No Order</td>
                                 <td><span id="invoice-number">#3</span></td>
                             </tr>
                             <tr>
-                                <td>Waktu:</td>
+                                <td>Waktu</td>
                                 <td><span id="invoice-time">03/01/2025 10:16</span></td>
                             </tr>
                             <tr>
-                                <td>Kasir:</td>
+                                <td>Kasir</td>
                                 <td><span id="cashier-name">Annisa</span></td>
                             </tr>
                         </tbody>
@@ -129,14 +131,24 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td>1</td>
+                                <td>2</td>
                                 <td>Kopi Susu Aren Kongsi</td>
-                                <td>Rp 23.000</td>
+                                <td>Rp 46.000</td>
                             </tr>
                             <tr>
                                 <td>1</td>
                                 <td>Salted Caramel Macchiato</td>
                                 <td>Rp 28.000</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>Americano</td>
+                                <td>Rp 19.000</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>Cinnamon Latte</td>
+                                <td>Rp 27.000</td>
                             </tr>
                         </tbody>
                     </table>
@@ -146,16 +158,16 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td>Subtotal:</td>
-                                <td><span id="subtotal">Rp 51.000</span></td>
+                                <td>Subtotal</td>
+                                <td><span id="subtotal">Rp 92.000</span></td>
                             </tr>
                             <tr>
                                 <td>PPN 11%</td>
-                                <td><span id="subtotal">Rp 5.610</span></td>
+                                <td><span id="subtotal">Rp 10.120</span></td>
                             </tr>
                             <tr style="font-weight: bold">
-                                <td>Total Tagihan:</td>
-                                <td><span id="total-bill">Rp 56.610</span></td>
+                                <td>Total Tagihan</td>
+                                <td><span id="total-bill">Rp 102.120</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -163,12 +175,12 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td>Total Bayar:</td>
-                                <td><span id="total-paid">Rp 100.000</span></td>
+                                <td>Total Bayar</td>
+                                <td><span id="total-paid">Rp 110.000</span></td>
                             </tr>
                             <tr>
-                                <td>Kembalian:</td>
-                                <td><span id="change"></span>Rp 43.390</td>
+                                <td>Kembalian</td>
+                                <td><span id="change"></span>Rp 7.880</td>
                             </tr>
                         </tbody>
                     </table> 
