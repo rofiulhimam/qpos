@@ -360,27 +360,39 @@ POS
 
         // Event listener untuk tombol Order
         orderButton.addEventListener('click', function() {
-            if (menuOrderContainer.querySelectorAll('.menu-order').length === 0) {
-                Swal.fire({
-                    type: 'warning',
-                    title: 'Pesanan Kosong!',
-                    text: 'Silakan tambahkan setidaknya satu item ke pesanan sebelum melakukan pembayaran.',
-                    confirmButtonText: 'OK'
-                });
-            } else {
-                paymentModal.style.display = 'block'; // Tampilkan modal metode pembayaran
-            }
+            showLoading();
+
+            setTimeout(() => {
+                if (menuOrderContainer.querySelectorAll('.menu-order').length === 0) {
+                    Swal.fire({
+                        type: 'warning',
+                        title: 'Pesanan Kosong!',
+                        text: 'Silakan tambahkan setidaknya satu item ke pesanan sebelum melakukan pembayaran.',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    paymentModal.style.display = 'block';
+                }
+
+                hideLoading();
+            }, 400);
         });
 
         // Event listener untuk tombol Cash
         document.getElementById('cash').addEventListener('click', function() {
-            paymentModal.style.display = 'none'; // Tutup modal metode pembayaran
-            document.getElementById('input-nominal').style.display = 'block'; // Tampilkan modal input nominal
+            showLoading();
+            setTimeout(() => {
+                paymentModal.style.display = 'none'; // Tutup modal metode pembayaran
+                document.getElementById('input-nominal').style.display = 'block'; // Tampilkan modal input nominal
+
+                hideLoading();
+            }, 400);
         });
 
         // Event listener untuk tombol Bayar
         document.getElementById('submitNominal').addEventListener('click', function(e) {
             e.preventDefault();
+            showLoading();
             // const nominalValue = document.getElementById('nominal').value.replace(/[^0-9]/g, ''); // Ambil nilai numerik
             const payment_amount = parseInt(nominalInput.value);
             const price_total = parseInt(inputPriceTotal.value);
@@ -430,6 +442,7 @@ POS
                     menuOrderContainer.innerHTML = ''; // Bersihkan pesanan
                     document.querySelector('.qty-total').textContent = '0 Item';
                     document.querySelector('.price-total').textContent = 'Rp 0';
+                    hideLoading();
                 })
                 .catch(error => {
                     Swal.fire({
@@ -513,6 +526,8 @@ POS
         // Close modal for input nominal
         document.querySelector('.close-nominal').addEventListener('click', function() {
             document.getElementById('input-nominal').style.display = 'none';
+            nominalDisplay.value = '';
+            nominalInput.value = '';
         });
 
         // Close modal when clicking outside of the modal
@@ -521,6 +536,8 @@ POS
                 paymentModal.style.display = 'none';
             } else if (event.target === document.getElementById('input-nominal')) {
                 document.getElementById('input-nominal').style.display = 'none';
+                nominalDisplay.value = '';
+                nominalInput.value = '';
             }
         });
     });
