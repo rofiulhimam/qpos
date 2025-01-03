@@ -258,9 +258,10 @@ POS
                     Swal.fire({
                         type: 'warning',
                         title: 'Hapus Item?',
-                        text: 'Apakah Anda yakin ingin menghapus item ini dari pesanan?',
+                        text: 'Yakin ingin menghapus item ini dari pesanan?',
                         showCancelButton: true,
-                        confirmButtonText: 'Ya, Hapus',
+                        confirmButtonColor: '#31602c',
+                        confirmButtonText: 'Ya, Hapus', 
                         cancelButtonText: 'Batal'
                     }).then((result) => {
                         if (result.value) {
@@ -449,6 +450,7 @@ POS
                     Swal.fire({
                         type: 'success',
                         title: 'Transaksi Berhasil',
+                        confirmButtonColor: '#31602c',
                         text: result.message
                     });
 

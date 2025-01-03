@@ -177,7 +177,7 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#31602c',
-                cancelButtonColor: '#d33',
+                cancelButtonColor: '#9A9A9A', 
                 confirmButtonText: 'Ya, tinggalkan halaman',
                 cancelButtonText: 'Batal'
             }).then((result) => {
