@@ -59,10 +59,6 @@ Tambah Inventori
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
-                    {{-- <option value="1">Coffee</option>
-                    <option value="2">Non coffee</option>
-                    <option value="3">Mojito</option>
-                    <option value="4">Pastry & Snack</option> --}}
                 </select>
             </div>
             <div class="content-container">

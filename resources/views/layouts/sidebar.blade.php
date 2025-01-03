@@ -1,13 +1,13 @@
 <sidebar class="sidebar">
     <div class="sidebar-top">
         <a href="#" class="menu-toggle" data-target="point-of-sale-dropdown">
-            <div class="menu-sidebar" id="point-of-sale">
+            <div class="menu-sidebar {{ request()->is('pos') ? 'selected' : '' }}" id="point-of-sale">
                 <img class="menu-icon" alt="" src="{{ asset('assets/image/cart.svg') }}" />
                 <div class="menu-text">Point Of Sale</div>
                 <img class="icon-tabler-icons-chevron-" alt="" src="{{ asset('assets/image/chevron-right.svg') }}" />
             </div>
         </a>
-        <div class="dropdown" id="point-of-sale-dropdown" style="display: none;">
+        <div class="dropdown" id="point-of-sale-dropdown" style="display: {{ request()->is('pos') ? 'show' : 'none' }};">
             <div class="dropdown-content">
                 <a href="{{ route('pos') }}" class="dropdown-item">All</a>
                 <a href="{{ route('pos') }}" class="dropdown-item">Coffee</a>
@@ -25,27 +25,27 @@
         </a>
         <div class="dropdown" id="transaksi-dropdown" style="display: {{ request()->is('transaksi') ? 'show' : 'none' }};">
             <div class="dropdown-content">
-                <a href="{{ route('transaksi') }}" class="dropdown-item {{ request()->is('transaksi') ? 'selected' : '' }}">Hari ini</a>
+                <a href="{{ route('transaksi') }}" class="dropdown-item">Hari ini</a>
                 <a href="{{ route('transaksi') }}" class="dropdown-item">Kemarin</a>
                 <a href="{{ route('transaksi') }}" class="dropdown-item">Bulan ini</a>
                 <a href="{{ route('transaksi') }}" class="dropdown-item">Bulan lalu</a>
             </div>
         </div>
         <a href="{{ route('keuangan') }}">
-            <div class="menu-sidebar">
+            <div class="menu-sidebar {{ request()->is('keuangan') ? 'selected' : '' }}">
                 <img class="menu-icon" alt="" src="{{ asset('assets/image/currency-dollar.svg') }}" />
                 <div class="menu-text">Keuangan</div>
             </div>
         </a>
         <a href="{{ route('penjualan') }}">
-            <div class="menu-sidebar">
+            <div class="menu-sidebar {{ request()->is('penjualan') ? 'selected' : '' }}">
                 <img class="menu-icon" alt="" src="{{ asset('assets/image/bag.svg') }}" />
                 <div class="menu-text">Penjualan</div>
             </div>
         </a>
         @if (Auth::user()->role === 'Admin')
         <a href="{{ route('inventori') }}">
-            <div class="menu-sidebar">
+            <div class="menu-sidebar {{ request()->is('inventori') ? 'selected' : '' }}">
                 <img class="menu-icon" alt="" src="{{ asset('assets/image/Box.svg') }}" />
                 <div class="menu-text">Inventori</div>
             </div>
@@ -57,7 +57,7 @@
             </div>
         </a>
         <a href="{{ route('staff') }}">
-            <div class="menu-sidebar">
+            <div class="menu-sidebar {{ request()->is('staff') ? 'selected' : '' }}">
                 <img class="menu-icon" alt="" src="{{ asset('assets/image/staff.svg') }}" />
                 <div class="menu-text">Staff</div>
             </div>

@@ -1,11 +1,11 @@
 .left-page {
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: row; 
   align-items: flex-start;
   justify-content: flex-start;
 }
-.main-content {
+.main-content { 
   flex: 1;
   height: 100%;
   overflow-y: auto;
@@ -29,19 +29,24 @@
   display: flex;
   gap: 16px;
 }
-
-.category-button {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 20px;
-  color: #31602c;
+select{
+  outline-style: none;
+}
+.filter-dropdown {
+  padding: 10px;
+  color: rgb(27, 27, 27);
   border-radius: 10px;
   font-weight: 500;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
   cursor: pointer;
   border: var(--sds-size-stroke-border) solid var(--Green-G300, #31602c);
   outline: 1px solid var(--Green-G300, #31602c);
   background: var(--Default, #fff);
+}
+option:hover{
+  color: white;
+  background: #31602c;
 }
 
 .add-button {

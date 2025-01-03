@@ -6,7 +6,7 @@
 
 @section('title')
     Inventori
-@endsection
+@endsection 
 
 @section('main-content')
     <div class="main-content">
@@ -58,6 +58,7 @@
         </div>
     </div>
 @endsection
+
 
 @section('js')
 <script>

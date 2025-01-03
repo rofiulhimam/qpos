@@ -10,7 +10,10 @@
 
 @section('main-content')
 <div class="main-content">
-    <div class="button-header">
+    <div class="button-header" style="display: flex; justify-content: space-between;">
+        <div style="font-size: 20px; font-weight: 600;">
+            Manajemen Kategori
+        </div>
         <a href="{{ route('form-kategori') }}">
             <div class="add-button">
                 <div class="text-button">Tambah</div>
