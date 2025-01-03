@@ -235,6 +235,7 @@ POS
             const plusBtn = menuOrderElement.querySelector('.button-plus');
             const qtyInput = menuOrderElement.querySelector('.input-qty .div');
             const priceElement = menuOrderElement.querySelector('.menu-selected .price');
+            const menuOrderContainer = menuOrderElement.parentElement;
 
             let quantity = parseInt(qtyInput.textContent);
 
@@ -253,6 +254,20 @@ POS
                     quantity--;
                     qtyInput.textContent = quantity;
                     updatePrice();
+                } else if (quantity === 1) {
+                    Swal.fire({
+                        type: 'warning',
+                        title: 'Hapus Item?',
+                        text: 'Apakah Anda yakin ingin menghapus item ini dari pesanan?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Ya, Hapus',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.value) {
+                            menuOrderContainer.removeChild(menuOrderElement);
+                            updateSummary();
+                        }
+                    });
                 }
             });
 
