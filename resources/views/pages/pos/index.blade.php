@@ -310,8 +310,9 @@ POS
                     Swal.fire({
                         type: 'warning',
                         title: 'Item Sudah Ada!',
-                        text: `Item "${name}" sudah ada dalam daftar pesanan.`,
-                        confirmButtonText: 'OK'
+                        text: `"${name}" sudah ada dalam daftar pesanan.`,
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#31602c'
                     });
                 } else {
                     // Jika item belum ada, tambahkan elemen baru
