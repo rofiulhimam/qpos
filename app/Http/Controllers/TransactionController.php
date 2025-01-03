@@ -126,4 +126,8 @@ class TransactionController extends Controller
             return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
         }
     }
+    public function struk()
+    {
+        return view('pages.pos.struk'); // Ganti dengan path yang sesuai untuk tampilan struk
+    }
 }

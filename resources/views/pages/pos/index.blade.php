@@ -518,7 +518,7 @@ POS
                 });
 
                 nominalDisplay.value = '';
-                nominalInput.value = '';
+                 nominalInput.value = '';
                 menuOrderContainer.innerHTML = ''; // Bersihkan pesanan
                 document.querySelector('.qty-total').textContent = '0 Item';
                 document.querySelector('.price-total').textContent = 'Rp 0';

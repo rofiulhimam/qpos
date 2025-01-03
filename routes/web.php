@@ -33,7 +33,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/transaksi', [App\Http\Controllers\TransactionController::class, 'transaksi'])->name('transaksi');
     Route::get('/transactions/{id}', [TransactionController::class, 'getTransactionDetails']);
     Route::post('/transactions/filter', [TransactionController::class, 'filterTransactions'])->name('transactions.filter');
-
+    
+    Route::get('/struk', [TransactionController::class, 'struk'])->name('pages.pos.struk');
 });
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
