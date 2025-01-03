@@ -12,7 +12,7 @@
     <div class="main-content">
         <div class="top">
             <div class="title" id="title">Tambah Kategori</div>
-            <a href="{{ route('staff') }}">
+            <a href="{{ route('staff') }}" id="btn-cancel">
                 <div class="button">
                     <button type="button">Batal</button>
                 </div>
@@ -30,7 +30,7 @@
                         </p>
                     </div>
                     <div class="field">
-                        <input type="text" class="placeholder" placeholder="Masukkan nama kategori" style="border: none; background: transparent; width: 100%; outline: none;" name="name" id="name" value="">
+                        <input type="text" class="placeholder" autocomplete="name" placeholder="Masukkan nama lengkap" style="border: none; background: transparent; width: 100%; outline: none;" name="name" id="name" value="">
                     </div>
                 </div>
                 <div class="content-container">
@@ -41,7 +41,7 @@
                         </p>
                     </div>
                     <div class="field">
-                        <input type="email" class="placeholder" placeholder="Masukkan nama kategori" style="border: none; background: transparent; width: 100%; outline: none;" name="email" id="email" value="">
+                        <input type="email" class="placeholder" autocomplete="email" placeholder="Masukkan e-mail" style="border: none; background: transparent; width: 100%; outline: none;" name="email" id="email" value="">
                     </div>
                 </div>
                 <div class="content-container">
@@ -52,7 +52,18 @@
                         </p>
                     </div>
                     <div class="field">
-                        <input type="password" class="placeholder" placeholder="Masukkan nama kategori" style="border: none; background: transparent; width: 100%; outline: none;" name="password" id="password" value="">
+                        <input type="password" class="placeholder" autocomplete="new-password" placeholder="Masukkan password" style="border: none; background: transparent; width: 100%; outline: none;" name="password" id="password" value="">
+                    </div>
+                </div>
+                <div class="content-container">
+                    <div class="left-content">
+                        <div class="div">Konfirmasi Password</div>
+                        <p class="p">
+                            Silahkan konfirmasi password untuk akun anda
+                        </p>
+                    </div>
+                    <div class="field">
+                        <input type="password" class="placeholder" autocomplete="new-password" placeholder="Konfirmasi password" style="border: none; background: transparent; width: 100%; outline: none;" name="password_confirmation" id="password_confirmation" value="">
                     </div>
                 </div>
                 <div class="content-container">
@@ -85,6 +96,16 @@
         $('#form').on('submit', function (e) {
             e.preventDefault();
 
+            // Ambil nilai password dan konfirmasi password
+            let password = $('#password').val();
+            let passwordConfirmation = $('#password_confirmation').val();
+
+            // Validasi konfirmasi password
+            if (password !== passwordConfirmation) {
+                toastr.error('Konfirmasi password tidak sesuai dengan password.');
+                return; // Hentikan eksekusi jika validasi gagal
+            }
+
             let formData = new FormData(this); // Gunakan FormData untuk menangani file
             formData.append('metode', $('#metode').val());
             formData.append('_token', "{{ csrf_token() }}");
@@ -104,6 +125,67 @@
                 }
             });
         });
+
+        // $('#btn-cancel').on('click', function (e) {
+        //     e.preventDefault();
+
+        //     const href = $(this).attr('href');
+
+        //     Swal.fire({
+        //         title: 'Apakah Anda yakin?',
+        //         text: "Perubahan yang belum disimpan akan hilang jika anda meninggalkan halaman ini!",
+        //         type: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#31602c',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'Ya, kembali',
+        //         cancelButtonText: 'Batal'
+        //     }).then((result) => {
+        //         if (result.value) {
+        //             window.location.href = href;
+        //         }
+        //     });
+        // });
+
+        let formChanged = false;
+
+        // Deteksi jika ada perubahan di form
+        $('#form').on('change input', 'input, select, textarea', function () {
+            formChanged = true;
+        });
+
+        // Handler untuk semua tautan yang menyebabkan navigasi
+        $(document).on('click', 'a[href]', function (e) {
+            const href = $(this).attr('href');
+
+            // Abaikan jika ini adalah tautan kosong atau untuk modal
+            if (!href || href.startsWith('#') || $(this).attr('target') === '_blank') {
+                return;
+            }
+
+            if (formChanged) {
+                e.preventDefault();
+                confirmLeavePage(href);
+            }
+        });
+
+        // Fungsi untuk konfirmasi sebelum meninggalkan halaman
+        function confirmLeavePage(href) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: 'Perubahan yang belum disimpan akan hilang jika Anda meninggalkan halaman ini!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#31602c',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, tinggalkan halaman',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = href; // Arahkan ke halaman yang dituju
+                }
+            });
+        }
     });
 </script>
 @endsection
