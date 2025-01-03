@@ -48,7 +48,7 @@ POS
 </div>
 
 @endsection
-
+ 
 @section('more-content')
 <aside class="right-page">
     <form role="form" id="form" enctype="multipart/form-data" style="display: contents">
