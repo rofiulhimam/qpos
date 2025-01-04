@@ -126,27 +126,6 @@
             });
         });
 
-        // $('#btn-cancel').on('click', function (e) {
-        //     e.preventDefault();
-
-        //     const href = $(this).attr('href');
-
-        //     Swal.fire({
-        //         title: 'Apakah Anda yakin?',
-        //         text: "Perubahan yang belum disimpan akan hilang jika anda meninggalkan halaman ini!",
-        //         type: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#31602c',
-        //         cancelButtonColor: '#d33',
-        //         confirmButtonText: 'Ya, kembali',
-        //         cancelButtonText: 'Batal'
-        //     }).then((result) => {
-        //         if (result.value) {
-        //             window.location.href = href;
-        //         }
-        //     });
-        // });
-
         let formChanged = false;
 
         // Deteksi jika ada perubahan di form
@@ -174,7 +153,7 @@
             Swal.fire({
                 title: 'Apakah Anda yakin?',
                 text: 'Perubahan yang belum disimpan akan hilang jika Anda meninggalkan halaman ini!',
-                icon: 'warning',
+                type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#31602c',
                 cancelButtonColor: '#9A9A9A', 

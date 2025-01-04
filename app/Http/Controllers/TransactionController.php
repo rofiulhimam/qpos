@@ -78,7 +78,7 @@ class TransactionController extends Controller
             'invoice_number' => $transaction->id,
             'cashier' => $transaction->cashier_name,
             'date' => $transaction->created_at->format('d/m/Y - H:i'),
-            // 'payment_method' => $transaction->payment_method,
+            'payment_method' => $transaction->payment_method,
             'items' => $details,
             'total_items' => $transaction->total_qty,
             'total_price' => $transaction->total_price,
@@ -126,8 +126,26 @@ class TransactionController extends Controller
             return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
         }
     }
+
     public function struk()
     {
-        return view('pages.pos.struk'); // Ganti dengan path yang sesuai untuk tampilan struk
+        $transaction = DB::table('transactions')->orderBy('created_at', 'desc')->first();
+        $transaction_detail = DB::table('transaction_details')
+        ->join('inventories', 'transaction_details.id_product', '=', 'inventories.id')
+        ->select('inventories.name', 'inventories.price', 'transaction_details.qty')
+        ->where('transaction_details.id_transaction', '=', $transaction->id)
+        ->get();
+        return view('pages.pos.struk', ['transaction' => $transaction, 'transaction_detail' => $transaction_detail]);
+    }
+
+    public function strukWithId(Request $request)
+    {
+        $transaction = DB::table('transactions')->where('id', '=', $request->id_transaction)->first();
+        $transaction_detail = DB::table('transaction_details')
+        ->join('inventories', 'transaction_details.id_product', '=', 'inventories.id')
+        ->select('inventories.name', 'inventories.price', 'transaction_details.qty')
+        ->where('transaction_details.id_transaction', '=', $request->id_transaction)
+        ->get();
+        return view('pages.pos.struk', ['transaction' => $transaction, 'transaction_detail' => $transaction_detail]);
     }
 }

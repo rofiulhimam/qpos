@@ -23,14 +23,5 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
-
-    public function keuangan()
-    {
-        return view('pages.keuangan.index');
-    }
-
-    public function penjualan()
-    {
-        return view('pages.penjualan.index');
-    }
+     
 }

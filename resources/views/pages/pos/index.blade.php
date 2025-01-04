@@ -111,72 +111,6 @@ POS
         </div>
     </div>
 </div>
-
-<!-- Modal for receipt -->
-<div id="receipt-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-receipt">&times;</span>
-        <div class="modal-container">
-            <div class="modal-header" style="padding: 0px">
-                <h3>Kedai Kopi Kongsi</h3>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>No inv:</td>
-                            <td><span id="invoice-number"></span></td>
-                        </tr>
-                        <tr>
-                            <td>Waktu:</td>
-                            <td><span id="invoice-time"></span></td>
-                        </tr>
-                        <tr>
-                            <td>Kasir:</td>
-                            <td><span id="cashier-name"></span></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div style="text-align: center">-----------------------------------------</div>
-            </div>
-            <div class="modal-body" id="receipt-body" style="padding: 0px">
-                <table>
-                    <tbody>
-                        {{-- Item pesanan akan ditambahkan di sini --}}
-                    </tbody>
-                </table>
-                <div style="text-align: center">-----------------------------------------</div>
-            </div>
-            <div class="modal-footer" style="padding: 0px">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Subtotal:</td>
-                            <td><span id="subtotal"></span></td>
-                        </tr>
-                        <tr>
-                            <td>Total Tagihan:</td>
-                            <td><span id="total-bill"></span></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div style="text-align: center">-----------------------------------------</div> 
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Total Bayar:</td>
-                            <td><span id="total-paid"></span></td>
-                        </tr>
-                        <tr>
-                            <td>Kembalian</td>
-                            <td><span id="change"></span></td>
-                        </tr>
-                    </tbody>
-                </table> 
-                <div style="text-align: center">===============================</div>
-                <p style="text-align: center">Selamat Menikmati</p> 
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
 
 @section('js')
@@ -451,8 +385,16 @@ POS
                     Swal.fire({
                         type: 'success',
                         title: 'Transaksi Berhasil',
+                        text: 'Apakah anda ingin mencetak struk?',
+                        showCancelButton: true,
+                        cancelButtonColor: '#9A9A9A',
                         confirmButtonColor: '#31602c',
-                        text: result.message
+                        confirmButtonText: 'Ya, cetak ini!',
+                        cancelButtonText: 'Tidak'
+                    }).then((result) => {
+                        if (result.value) {
+                            window.open(`{{ route('struk') }}`);
+                        }
                     });
 
                     nominalDisplay.value = '';
@@ -503,37 +445,61 @@ POS
                 items: items
             };
 
-            fetch('{{ route('transactions.store') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(result => {
-                paymentModal.style.display = 'none'; // Tutup modal metode pembayaran
-                Swal.fire({
-                    type: 'success',
-                    title: 'Transaksi Berhasil',
-                    text: result.message
-                });
+            paymentModal.style.display = 'none'; // Tutup modal metode pembayaran
+            Swal.fire({
+                type: 'question',
+                title: 'Menunggu Pembayaran',
+                text: 'Apakah user sudah membayar?',
+                showCancelButton: true,
+                cancelButtonColor: '#9A9A9A',
+                confirmButtonColor: '#31602c',
+                confirmButtonText: 'Ya, sudah!',
+                cancelButtonText: 'Belum'
+            }).then((result) => {
+                if (result.value) {
+                    fetch('{{ route('transactions.store') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        Swal.fire({
+                            type: 'success',
+                            title: 'Transaksi Berhasil',
+                            text: 'Apakah anda ingin mencetak struk?',
+                            showCancelButton: true,
+                            cancelButtonColor: '#9A9A9A',
+                            confirmButtonColor: '#31602c',
+                            confirmButtonText: 'Ya, cetak ini!',
+                            cancelButtonText: 'Tidak'
+                        }).then((result) => {
+                            if (result.value) {
+                                window.open(`{{ route('struk') }}`);
+                            }
+                        });
 
-                nominalDisplay.value = '';
-                 nominalInput.value = '';
-                menuOrderContainer.innerHTML = ''; // Bersihkan pesanan
-                document.querySelector('.qty-total').textContent = '0 Item';
-                document.querySelector('.price-total').textContent = 'Rp 0';
-            })
-            .catch(error => {
-                Swal.fire({
-                    type: 'error',
-                    title: 'Gagal',
-                    text: 'Terjadi kesalahan saat menyimpan transaksi'
-                });
-                console.error('Error:', error);
+                        nominalDisplay.value = '';
+                        nominalInput.value = '';
+                        menuOrderContainer.innerHTML = ''; // Bersihkan pesanan
+                        document.querySelector('.qty-total').textContent = '0 Item';
+                        document.querySelector('.price-total').textContent = 'Rp 0';
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Gagal',
+                            text: 'Terjadi kesalahan saat menyimpan transaksi'
+                        });
+                        console.error('Error:', error);
+                    });
+                }
             });
+
+            
         });      
 
         // Close modal for payment method
@@ -558,6 +524,53 @@ POS
                 nominalInput.value = '';
             }
         });
+    });
+
+    $(document).ready(function () {
+        let menuOrderChanged = false;
+
+        // Observer untuk memantau perubahan di menu-order-container
+        const observer = new MutationObserver(() => {
+            menuOrderChanged = true;
+        });
+
+        observer.observe(document.querySelector('.menu-order-container'), {
+            childList: true, // Perubahan pada anak elemen (add/remove)
+            subtree: true,   // Pantau semua level dalam container
+        });
+
+        // Handler untuk semua tautan yang menyebabkan navigasi
+        $(document).on('click', 'a[href]', function (e) {
+            const href = $(this).attr('href');
+
+            // Abaikan jika ini adalah tautan kosong atau untuk modal
+            if (!href || href.startsWith('#') || $(this).attr('target') === '_blank') {
+                return;
+            }
+
+            if (menuOrderChanged) {
+                e.preventDefault();
+                confirmLeavePage(href);
+            }
+        });
+
+        // Fungsi untuk konfirmasi sebelum meninggalkan halaman
+        function confirmLeavePage(href) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: 'Perubahan yang belum disimpan akan hilang jika Anda meninggalkan halaman ini!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#31602c',
+                cancelButtonColor: '#9A9A9A', 
+                confirmButtonText: 'Ya, tinggalkan halaman',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = href; // Arahkan ke halaman yang dituju
+                }
+            });
+        }
     });
 </script>
 @endsection

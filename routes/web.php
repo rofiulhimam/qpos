@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -23,9 +24,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/keuangan', [App\Http\Controllers\HomeController::class, 'keuangan'])->name('keuangan');
-Route::get('/penjualan', [App\Http\Controllers\HomeController::class, 'penjualan'])->name('penjualan');
-
 Route::group(['middleware' => ['auth']], function () {
     // POS
     Route::get('/pos', [App\Http\Controllers\TransactionController::class, 'pos'])->name('pos');
@@ -34,7 +32,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/transactions/{id}', [TransactionController::class, 'getTransactionDetails']);
     Route::post('/transactions/filter', [TransactionController::class, 'filterTransactions'])->name('transactions.filter');
     
-    Route::get('/struk', [TransactionController::class, 'struk'])->name('pages.pos.struk');
+    Route::get('/struk', [TransactionController::class, 'struk'])->name('struk');
+    Route::get('/struk-id', [TransactionController::class, 'strukWithId'])->name('struk_with_id');
+    Route::get('/penjualan/data/{period}', [SaleController::class, 'getSalesData']);
+    Route::get('/keuangan', [App\Http\Controllers\FinanceController::class, 'index'])->name('keuangan');
+    Route::get('/penjualan', [App\Http\Controllers\SaleController::class, 'index'])->name('penjualan');
 });
 
 Route::group(['middleware' => ['auth', 'admin']], function () {

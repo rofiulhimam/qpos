@@ -117,7 +117,7 @@
                     @foreach ($dailyTransactions as $transaction)
                         <div class="transaction" data-id="{{ $transaction->id }}">
                             <div class="text-left">
-                                <div class="price-transaction">Rp {{ number_format($transaction->total_price, 0, ',', '.') }}</div>
+                                <div class="price-transaction">Rp {{ number_format($transaction->total_price, 0, ',', '.') }} - {{ $transaction->payment_method }}</div>
                                 <div class="item-transaction">{{ $transaction->total_qty }} Item</div>
                             </div>
                             <div class="time">{{ $transaction->created_at->format('H:i') }}</div>
@@ -160,6 +160,7 @@
                         <div class="inv-info" id="inv-no">
                             <div class="title">Inv No</div>
                             <div class="output">-</div>
+                            <input type="hidden" name="id_transaction" id="id_transaction" value="">
                         </div>
                         <div class="inv-info" id="cashier">
                             <div class="title">Cashier</div>
@@ -187,7 +188,7 @@
                     <div class="item">0 Item</div>
                     <div class="price-bottom">Rp 0</div>
                 </div>
-                <div class="button-print">
+                <div class="button-print" id="btn-print">
                     <img class="printer-icon" alt="" src="{{ asset('assets/image/printer.svg') }}" />
                 </div>
             </div>
@@ -217,9 +218,10 @@
                         .then(data => {
                             // Update invoice-info
                             document.querySelector('#inv-no .output').innerText = `#${data.invoice_number}`;
+                            document.querySelector('#inv-no #id_transaction').value = `${data.invoice_number}`;
                             document.querySelector('#cashier .output').innerText = data.cashier;
                             document.querySelector('#date .output').innerText = data.date;
-                            // document.querySelector('#pembayaran .output').innerText = data.payment_method;
+                            document.querySelector('#pembayaran .output').innerText = data.payment_method;
 
                             // Update menu-order-info
                             const menuOrderContainer = document.querySelector('.menu-order-info');
@@ -450,6 +452,36 @@
                 calendarInputLast.style.display = 'none';
                 calendarInputLast.value = ''; // Reset nilai
             }
+        });
+    });
+
+    // Cetak struk dari data yang dipilih
+    $(document).ready(function () {
+        $('#btn-print').on('click', function(e) {
+            e.preventDefault();
+            
+            const id_transaction = $('#id_transaction').val();
+
+            if (!id_transaction) {
+                toastr.error("Silahkan pilih data transaksi terlebih dahulu sebelum dicetak!");
+                return;
+            }
+
+            Swal.fire({
+                title: 'Pemberitahuan',
+                text: "Apakah anda ingin mencetak struk?",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#31602c',
+                confirmButtonText: 'Ya, cetak ini',
+                cancelButtonColor: '#9A9A9A',
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.value) {
+                    window.open(`{{ route('struk_with_id') }}?id_transaction=${id_transaction}`);
+                    Swal.close();
+                }
+            });
         });
     });
 </script>

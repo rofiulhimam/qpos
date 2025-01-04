@@ -14,46 +14,79 @@
         <div class="top">
             <div class="box-analysis">
                 <div class="title">Hari ini</div>
-                <div class="amount">Rp 347.000</div>
+                <div class="amount">Rp {{ number_format($today, 0, ',', '.') }}</div>
                 <div class="analysis">
+                    @if ($today < $yesterday)
                     <div class="percent" id="down">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path d="M10 15.8333L10 4.16667M10 15.8333L15 10.8333M10 15.8333L5 10.8333" stroke="red"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        <div class="text"><b>16.7%</b></div>
+                        <div class="text"><b>{{ number_format(abs($percent_change_yesterday), 1, ',', '.') }}%</b></div>
                     </div>
+                    @elseif ($today > $yesterday)
+                    <div class="percent" id="up">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 4.16667L10 15.8333M10 4.16667L15 9.16667M10 4.16667L5 9.16667" stroke="green"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <div class="text"><b>{{ number_format(abs($percent_change_yesterday), 1, ',', '.') }}%</b></div>
+                    </div>
+                    @endif
                     <div class="period">dibandingkan kemarin</div>
                 </div>
             </div>
             <div class="box-analysis">
                 <div class="title">Bulan ini</div>
-                <div class="amount">Rp 2.347.000</div>
+                <div class="amount">Rp {{ number_format($this_month, 0, ',', '.') }}</div>
                 <div class="analysis">
+                    @if ($this_month < $last_month)
+                    <div class="percent" id="down">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 15.8333L10 4.16667M10 15.8333L15 10.8333M10 15.8333L5 10.8333" stroke="red"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <div class="text"><b>{{ number_format(abs($percent_change_last_month), 1, ',', '.') }}%</b></div>
+                    </div>
+                    @elseif ($this_month > $last_month)
                     <div class="percent" id="up">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path d="M10 4.16667L10 15.8333M10 4.16667L15 9.16667M10 4.16667L5 9.16667" stroke="green"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        <div class="text"><b>34.1%</b></div>
+                        <div class="text"><b>{{ number_format(abs($percent_change_last_month), 1, ',', '.') }}%</b></div>
                     </div>
+                    @endif
                     <div class="period">dibandingkan bulan lalu</div>
                 </div>
             </div>
             <div class="box-analysis">
                 <div class="title">Tahun ini</div>
-                <div class="amount">Rp 35.347.000</div>
+                <div class="amount">Rp {{ number_format($this_year, 0, ',', '.') }}</div>
                 <div class="analysis">
+                    @if ($this_year < $last_year)
+                    <div class="percent" id="down">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 15.8333L10 4.16667M10 15.8333L15 10.8333M10 15.8333L5 10.8333" stroke="red"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <div class="text"><b>{{ number_format(abs($percent_change_last_year), 1, ',', '.') }}%</b></div>
+                    </div>
+                    @elseif ($this_year > $last_year)
                     <div class="percent" id="up">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path d="M10 4.16667L10 15.8333M10 4.16667L15 9.16667M10 4.16667L5 9.16667" stroke="green"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        <div class="text"><b>29.4%</b></div>
+                        <div class="text"><b>{{ number_format(abs($percent_change_last_year), 1, ',', '.') }}%</b></div>
                     </div>
+                    @endif
                     <div class="period">dibandingkan tahun lalu</div>
                 </div>
             </div>
@@ -62,101 +95,85 @@
             <div class="header-chart">
                 <div class="div">Grafik Penghasilan</div>
                 <div class="category">
-                    <button class="button" id="unselected">Mingguan</button>
-                    <button class="button" id="selected">Bulanan</button>
-                    <button class="button" id="unselected">Tahunan</button>
+                    <button class="button" id="weeklyBtn">Mingguan</button>
+                    <button class="button" id="monthlyBtn">Bulanan</button>
+                    <button class="button" id="yearlyBtn">Tahunan</button>
                 </div>
             </div>
             <hr>
             <div class="chart">
-                <canvas id="monthlyChart"></canvas>
+                <canvas id="financeChart"></canvas>
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                 <script>
-                    const ctx = document.getElementById('monthlyChart');
+                    const ctx = document.getElementById('financeChart').getContext('2d');
 
-                    const monthlyData = [
-                        2347000, // 12 (Dec 2023)
-                        2156000, // 1 (Jan 2024)
-                        2987000, // 2 (Feb 2024)
-                        2654000, // 3 (Mar 2024)
-                        2876000, // 4 (Apr 2024)
-                        2543000, // 5 (May 2024)
-                        2987000, // 6 (Jun 2024)
-                        3124000, // 7 (Jul 2024)
-                        2765000, // 8 (Aug 2024)
-                        2432000, // 9 (Sep 2024)
-                        2654000, // 10 (Oct 2024)
-                        2747000 // 11 (Nov 2024)
-                    ];
+                    // Default Data (Bulanan)
+                    let chartLabels = {!! json_encode($chart_labels) !!};
+                    let chartValues = {!! json_encode($chart_values) !!};
 
-                    const minValue = Math.min(...monthlyData);
-                    const maxValue = Math.max(...monthlyData);
+                    // Data for Weekly and Yearly
+                    const weeklyLabels = {!! json_encode($chart_labels_weekly) !!};
+                    const weeklyValues = {!! json_encode($chart_values_weekly) !!};
+                    const yearlyLabels = {!! json_encode($chart_labels_yearly) !!};
+                    const yearlyValues = {!! json_encode($chart_values_yearly) !!};
 
-                    new Chart(ctx, {
+                    let financeChart = new Chart(ctx, {
                         type: 'line',
                         data: {
-                            labels: ['Des', 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov'],
+                            labels: chartLabels,
                             datasets: [{
                                 label: 'Penghasilan Bulanan',
-                                data: monthlyData,
+                                data: chartValues,
                                 borderColor: 'rgb(49, 96, 44)',
                                 backgroundColor: 'rgba(49, 96, 44, 0.1)',
-                                tension: 0,
+                                tension: 0.4,
                                 fill: true
                             }]
                         },
                         options: {
                             responsive: true,
                             maintainAspectRatio: false,
-                            font: {
-                                family: "'Poppins', sans-serif"
-                            },
                             scales: {
                                 y: {
-                                    min: minValue * 0.95,
-                                    max: maxValue * 1.05,
                                     ticks: {
-                                        font: {
-                                            family: "'Poppins', sans-serif"
-                                        },
                                         callback: function(value) {
                                             return 'Rp ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                                        }
-                                    }
-                                },
-                                x: {
-                                    ticks: {
-                                        font: {
-                                            family: "'Poppins', sans-serif"
                                         }
                                     }
                                 }
                             },
                             plugins: {
                                 tooltip: {
-                                    titleFont: {
-                                        family: "'Poppins', sans-serif"
-                                    },
-                                    bodyFont: {
-                                        family: "'Poppins', sans-serif"
-                                    },
                                     callbacks: {
                                         label: function(context) {
-                                            let value = context.raw;
-                                            return 'Rp ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                                        }
-                                    }
-                                },
-                                legend: {
-                                    labels: {
-                                        font: {
-                                            family: "'Poppins', sans-serif"
+                                            return 'Rp ' + context.raw.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                                         }
                                     }
                                 }
                             }
                         }
                     });
+
+                    // Button Click Events
+                    document.getElementById('weeklyBtn').addEventListener('click', function() {
+                        updateChart('Penghasilan Mingguan', weeklyLabels, weeklyValues);
+                    });
+
+                    document.getElementById('monthlyBtn').addEventListener('click', function() {
+                        updateChart('Penghasilan Bulanan', chartLabels, chartValues);
+                    });
+
+                    document.getElementById('yearlyBtn').addEventListener('click', function() {
+                        updateChart('Penghasilan Tahunan', yearlyLabels, yearlyValues);
+                    });
+
+                    // Update Chart Function
+                    function updateChart(label, labels, values) {
+                        financeChart.data.labels = labels;
+                        financeChart.data.datasets[0].label = label;
+                        financeChart.data.datasets[0].data = values;
+                        financeChart.update();
+                    }
                 </script>
             </div>
         </div>

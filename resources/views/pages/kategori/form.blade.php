@@ -12,7 +12,7 @@
     <div class="main-content">
         <div class="top">
             <div class="title" id="title">Tambah Kategori</div>
-            <a href="{{ route('staff') }}">
+            <a href="{{ route('kategori') }}">
                 <div class="button">
                     <button type="button">Batal</button>
                 </div>
@@ -90,6 +90,46 @@
                 }
             });
         });
+
+        let formChanged = false;
+
+        // Deteksi jika ada perubahan di form
+        $('#form').on('change input', 'input, select, textarea', function () {
+            formChanged = true;
+        });
+
+        // Handler untuk semua tautan yang menyebabkan navigasi
+        $(document).on('click', 'a[href]', function (e) {
+            const href = $(this).attr('href');
+
+            // Abaikan jika ini adalah tautan kosong atau untuk modal
+            if (!href || href.startsWith('#') || $(this).attr('target') === '_blank') {
+                return;
+            }
+
+            if (formChanged) {
+                e.preventDefault();
+                confirmLeavePage(href);
+            }
+        });
+
+        // Fungsi untuk konfirmasi sebelum meninggalkan halaman
+        function confirmLeavePage(href) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: 'Perubahan yang belum disimpan akan hilang jika Anda meninggalkan halaman ini!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#31602c',
+                cancelButtonColor: '#9A9A9A', 
+                confirmButtonText: 'Ya, tinggalkan halaman',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = href; // Arahkan ke halaman yang dituju
+                }
+            });
+        }
     });
 </script>
 @endsection
