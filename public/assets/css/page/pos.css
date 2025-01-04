@@ -114,7 +114,8 @@
     gap: 16px;
 }
 .aside-header-content {
-    width: 100%;
+  display: flex;  
+  width: 100%;
     position: relative;
     display: flex;
     flex-direction: row;

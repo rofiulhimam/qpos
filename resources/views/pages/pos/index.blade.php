@@ -9,14 +9,14 @@ POS
 @endsection
 
 @section('more-header')
-<div class="aside-header">
+<div class="aside-header" style="align-items: center">
     <div class="aside-header-content">
         <div class="icon-order-detail">
             <img class="clipboard-icon" alt="" src="{{ asset('assets/image/clipboard.svg') }}" />
         </div>
         <div class="order-detail">
             <div class="title">Order Menu</div>
-            <div class="order-number">Order No. 16</div>
+            <div class="order-number">Informasi Pesanan</div>
         </div>
         <div class="delete-menu-order">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -257,10 +257,7 @@ POS
                         <div class="menu-selected">
                             <div class="name">${name}</div>
                             <div class="price">${formattedPrice}</div>
-                            <div class="notes">
-                                <img class="icon-notes" alt="" src="{{ asset('assets/image/edit.svg') }}" />
-                                <div class="text-notes">No Notes</div>
-                            </div>
+                            
                         </div>
                         <div class="qty-option">
                             <a class="button-minus">
