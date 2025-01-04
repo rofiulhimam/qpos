@@ -95,7 +95,7 @@
             <div class="header-chart">
                 <div class="div">Grafik Penghasilan</div>
                 <div class="category">
-                    <button class="button" id="weeklyBtn">Mingguan</button>
+                    <button class="button active" id="weeklyBtn">Mingguan</button>
                     <button class="button" id="monthlyBtn">Bulanan</button>
                     <button class="button" id="yearlyBtn">Tahunan</button>
                 </div>
@@ -157,16 +157,20 @@
                     // Button Click Events
                     document.getElementById('weeklyBtn').addEventListener('click', function() {
                         updateChart('Penghasilan Mingguan', weeklyLabels, weeklyValues);
+                        setActiveButton(this);
                     });
 
                     document.getElementById('monthlyBtn').addEventListener('click', function() {
                         updateChart('Penghasilan Bulanan', chartLabels, chartValues);
+                        setActiveButton(this);
                     });
 
                     document.getElementById('yearlyBtn').addEventListener('click', function() {
                         updateChart('Penghasilan Tahunan', yearlyLabels, yearlyValues);
+                        setActiveButton(this);
                     });
 
+                    
                     // Update Chart Function
                     function updateChart(label, labels, values) {
                         financeChart.data.labels = labels;
@@ -174,6 +178,20 @@
                         financeChart.data.datasets[0].data = values;
                         financeChart.update();
                     }
+
+                    // Set Active Button Function
+                    function setActiveButton(activeButton) {
+                        const buttons = document.querySelectorAll('.button');
+                        buttons.forEach(button => {
+                            button.classList.remove('active');
+                            button.style.backgroundColor = 'rgba(171, 190, 168, 1)'; // Hijau Muda
+                        });
+                        activeButton.classList.add('active');
+                        activeButton.style.backgroundColor = 'rgba(49, 96, 44, 1)'; // Hijau Tua
+                    }
+
+                    // Set default active button
+                    setActiveButton(document.getElementById('monthlyBtn'));
                 </script>
             </div>
         </div>

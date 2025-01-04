@@ -16,21 +16,27 @@
                 <a href="{{ route('pos') }}" class="dropdown-item">Pastry & Snack</a>
             </div>
         </div>
-        <a href="#" class="menu-toggle" data-target="transaksi-dropdown">
+        {{-- <a href="#" class="menu-toggle" data-target="transaksi-dropdown">
             <div class="menu-sidebar {{ request()->is('transaksi') ? 'selected' : '' }}">
                 <img class="menu-icon" alt="" src="{{ asset('assets/image/document-f.svg') }}" />
                 <div class="menu-text" id="button-menu-selected">Transaksi</div>
                 <img class="icon-tabler-icons-chevron-" alt="" src="{{ asset('assets/image/chevron-right.svg') }}" />
             </div>
-        </a>
-        <div class="dropdown" id="transaksi-dropdown" style="display: {{ request()->is('transaksi') ? 'show' : 'none' }};">
+        </a> --}}
+        {{-- <div class="dropdown" id="transaksi-dropdown" style="display: {{ request()->is('transaksi') ? 'show' : 'none' }};">
             <div class="dropdown-content">
                 <a href="{{ route('transaksi') }}" class="dropdown-item">Hari ini</a>
                 <a href="{{ route('transaksi') }}" class="dropdown-item">Kemarin</a>
                 <a href="{{ route('transaksi') }}" class="dropdown-item">Bulan ini</a>
                 <a href="{{ route('transaksi') }}" class="dropdown-item">Bulan lalu</a>
             </div>
-        </div>
+        </div> --}}
+        <a href="{{ route('transaksi')}}">
+            <div class="menu-sidebar {{ request()->is('transaksi') ? 'selected' : '' }}">
+                <img class="menu-icon" alt="" src="{{ asset('assets/image/document-f.svg') }}" />
+                <div class="menu-text">Transaksi</div>
+            </div>
+        </a>
         <a href="{{ route('keuangan') }}">
             <div class="menu-sidebar {{ request()->is('keuangan') ? 'selected' : '' }}">
                 <img class="menu-icon" alt="" src="{{ asset('assets/image/currency-dollar.svg') }}" />
@@ -66,10 +72,6 @@
     </div>
     <div class="sidebar-bottom">
         <div class="divider"></div>
-        <div class="menu-sidebar">
-            <img class="icon-ionicons-filled-car" alt="" src="{{ asset('assets/image/settings.svg') }}" />
-            <div class="menu-text">Settings</div>
-        </div>
         <div class="menu-sidebar" id="logout">
             <img class="icon-ionicons-filled-car" alt="" src="{{ asset('assets/image/Log_Out.svg') }}" />
             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

@@ -53,7 +53,7 @@ class SaleController extends Controller
             ->select('inventories.name', 'inventories.price', 'inventories.image')
             ->selectRaw('SUM(transaction_details.qty) as total_penjualan_produk')
             ->whereDate('transactions.created_at', now()->format('Y-m-d')) // Membandingkan hanya tanggal
-            ->groupBy('inventories.id') // Tambahkan groupBy untuk agregasi
+            ->groupBy('inventories.id', 'inventories.name', 'inventories.price', 'inventories.image') // Tambahkan groupBy untuk agregasi
             ->orderBy('total_penjualan_produk', 'desc') // Urutkan berdasarkan total penjualan
             ->get();
         $data_weekly = DB::table('transactions')
@@ -62,7 +62,7 @@ class SaleController extends Controller
             ->select('inventories.name', 'inventories.price', 'inventories.image')
             ->selectRaw('SUM(transaction_details.qty) as total_penjualan_produk')
             ->whereBetween('transactions.created_at', [now()->startOfWeek(), now()->endOfWeek()])
-            ->groupBy('inventories.id') // Tambahkan groupBy untuk agregasi
+            ->groupBy('inventories.id', 'inventories.name', 'inventories.price', 'inventories.image') // Tambahkan groupBy untuk agregasi
             ->orderBy('total_penjualan_produk', 'desc') // Urutkan berdasarkan total penjualan
             ->get();
         $data_monthly = DB::table('transactions')
@@ -72,7 +72,7 @@ class SaleController extends Controller
             ->selectRaw('SUM(transaction_details.qty) as total_penjualan_produk')
             ->whereMonth('transactions.created_at', now()->month) // Menggunakan bulan saat ini
             ->whereYear('transactions.created_at', now()->year)   // Menggunakan tahun saat ini
-            ->groupBy('inventories.id') // Tambahkan groupBy untuk agregasi
+            ->groupBy('inventories.id', 'inventories.name', 'inventories.price', 'inventories.image') // Tambahkan groupBy untuk agregasi
             ->orderBy('total_penjualan_produk', 'desc') // Urutkan berdasarkan total penjualan
             ->get();
         $data_yearly = DB::table('transactions')
@@ -81,7 +81,7 @@ class SaleController extends Controller
             ->select('inventories.name', 'inventories.price', 'inventories.image')
             ->selectRaw('SUM(transaction_details.qty) as total_penjualan_produk')
             ->whereYear('transactions.created_at', now()->year)   // Menggunakan tahun saat ini
-            ->groupBy('inventories.id') // Tambahkan groupBy untuk agregasi
+            ->groupBy('inventories.id', 'inventories.name', 'inventories.price', 'inventories.image') // Tambahkan groupBy untuk agregasi
             ->orderBy('total_penjualan_produk', 'desc') // Urutkan berdasarkan total penjualan
             ->get();
 
