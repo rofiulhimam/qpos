@@ -345,7 +345,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: var(--space-200) var(--padding-base);
   box-sizing: border-box;
   font-size: var(--font-size-base);
   color: var(--green-g500);

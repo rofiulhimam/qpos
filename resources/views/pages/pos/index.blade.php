@@ -69,7 +69,7 @@ POS
                     <input type="hidden" id="price_total" name="price_total" value="">
                 </div>
                 <div class="button-order">
-                    <button type="button" class="button" id="orderButton">Order</button>
+                    <button type="button" class="button" id="orderButton" style="width: 100%; height: 40px">Order</button>
                 </div>
             </div>
         </div>

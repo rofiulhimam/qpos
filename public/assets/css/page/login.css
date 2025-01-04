@@ -196,7 +196,6 @@ input {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: var(--padding-base) var(--padding-5xl);
   box-sizing: border-box;
   cursor: pointer;
   text-align: center;

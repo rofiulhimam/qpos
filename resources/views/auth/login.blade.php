@@ -119,7 +119,7 @@ Login
                     </div>
                 </div>
                 <div class="button-login" id="buttonLoginContainer">
-                    <input class="label" type="submit" value="Masuk"></input>
+                    <input class="label" type="submit" value="Masuk" style="width: 424px; height: 48px;"></input>
                 </div>
             </form>
             <div class="help-text">
